@@ -361,7 +361,10 @@
 
     <!-- LOGIC SCRIPT -->
     <script>
-        let pollData = JSON.parse(localStorage.getItem('janmat_custom_data')) || {
+        const CURRENT_VERSION = "v_2026_11_v5";
+
+        let defaultPollData = {
+            version: CURRENT_VERSION,
             bgColor: '#070B14',
             politics: {
                 question: "Who is your choice for India's Next Prime Minister (2029)?",
@@ -369,7 +372,7 @@
                     { id: 'pol_1', name: "Narendra Modi", subtitle: "BJP / NDA", flag: "🪷", photo: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150", votes: 8520 },
                     { id: 'pol_2', name: "Rahul Gandhi", subtitle: "INC / INDIA", flag: "🖐️", photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150", votes: 4890 },
                     { id: 'pol_3', name: "Yogi Adityanath", subtitle: "BJP / UP", flag: "🚩", photo: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150", votes: 2310 },
-                    { id: 'pol_4', name: "Vijay Thalapathy", subtitle: "TVK / TN", flag: "⭐", photo: "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=150", votes: 3150 },
+                    { id: 'pol_4', name: "Vijay Thalapathy", subtitle: "TVK / Tamil Nadu", flag: "⭐", photo: "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=150", votes: 3150 },
                     { id: 'pol_5', name: "Arvind Kejriwal", subtitle: "AAP / National", flag: "🧹", photo: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=150", votes: 1940 }
                 ]
             },
@@ -379,25 +382,33 @@
                 team2: { name: "AUSTRALIA", flag: "🇦🇺", capName: "Pat Cummins", capPhoto: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=150", votes: 36920 }
             },
             cinema: {
-                question: "Top 5 Blockbusters Releasing This Month",
+                question: "Top 5 Blockbusters Releasing This Month (Indian & Hollywood)",
                 movies: [
-                    { id: 'cin_1', title: "Ramayana: Part 1", sub: "Ranbir Kapoor & Yash", date: "Diwali 2026", photo: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=150", votes: 4500 },
-                    { id: 'cin_2', title: "War 2", sub: "Hrithik Roshan & Jr. NTR", date: "Independence Day", photo: "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=150", votes: 2700 },
-                    { id: 'cin_3', title: "Pushpa 3", sub: "Allu Arjun", date: "This Month", photo: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150", votes: 3100 },
-                    { id: 'cin_4', title: "Avatar 3", sub: "James Cameron", date: "Global Release", photo: "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=150", votes: 1850 },
-                    { id: 'cin_5', title: "Toxic", sub: "Yash Blockbuster", date: "Upcoming", photo: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=150", votes: 2100 }
+                    { id: 'cin_1', title: "Ramayana: Part 1", sub: "Ranbir Kapoor & Yash", date: "Diwali 2026", photo: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=150", votes: 5400 },
+                    { id: 'cin_2', title: "The Hunger Games: Reaping", sub: "Hollywood Blockbuster", date: "Nov 2026", photo: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=150", votes: 3900 },
+                    { id: 'cin_3', title: "Steps", sub: "Daniel Radcliffe & Ensemble", date: "Nov 2026", photo: "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=150", votes: 2800 },
+                    { id: 'cin_4', title: "War 2", sub: "Hrithik Roshan & Jr. NTR", date: "Coming Soon", photo: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150", votes: 4100 },
+                    { id: 'cin_5', title: "Pushpa 3", sub: "Allu Arjun Mass Spectacle", date: "Upcoming", photo: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=150", votes: 3600 }
                 ]
             },
             trending: {
-                question: "Big National & International Current Affairs",
+                question: "Big National & International Current Affairs (November 2026)",
                 options: [
-                    { id: 'trd_1', label: "Global AI Regulations & Safety Laws", votes: 5400 },
-                    { id: 'trd_2', label: "Economic Growth & Inflation Control", votes: 4200 },
-                    { id: 'trd_3', label: "Space Exploration & Chandrayaan Missions", votes: 3800 },
-                    { id: 'trd_4', label: "Electoral Reforms & VVPAT Transparency", votes: 2900 }
+                    { id: 'trd_1', label: "US Midterm Elections & Global Economic Impact", votes: 6200 },
+                    { id: 'trd_2', label: "Global AI Safety, Web Scraping & Tech Regulations", votes: 4800 },
+                    { id: 'trd_3', label: "Electoral Reforms & VVPAT Voting Transparency", votes: 3900 },
+                    { id: 'trd_4', label: "Cyclone Murasu Preparedness & Coastal Safety", votes: 2700 }
                 ]
             }
         };
+
+        // Cache Management: Reset outdated local data automatically
+        let savedData = JSON.parse(localStorage.getItem('janmat_custom_data'));
+        if (!savedData || savedData.version !== CURRENT_VERSION || !savedData.politics || savedData.politics.options.length < 5) {
+            localStorage.setItem('janmat_custom_data', JSON.stringify(defaultPollData));
+            savedData = defaultPollData;
+        }
+        let pollData = savedData;
 
         function initApp() {
             if (window.location.hash === '#admin') {
@@ -436,8 +447,8 @@
         function renderPublicPortal() {
             let grandTotal = 0;
 
-            // 1. Politics Render (5 Candidates with Votes, Party & Flag)
-            let polTotal = pollData.politics.options.reduce((a, b) => a + b.votes, 0);
+            // 1. Politics Render (5 Candidates with Votes, Subtitles & Party Flags)
+            let polTotal = pollData.politics.options.reduce((a, b) => a + (b.votes || 0), 0);
             grandTotal += polTotal;
             document.getElementById('polTotalVotesDisplay').innerText = polTotal.toLocaleString() + ' votes';
             document.getElementById('polQuestion').innerText = pollData.politics.question;
@@ -446,7 +457,7 @@
             polContainer.innerHTML = '';
 
             pollData.politics.options.forEach(opt => {
-                let pct = polTotal > 0 ? ((opt.votes / polTotal) * 100).toFixed(0) : 0;
+                let pct = polTotal > 0 ? (((opt.votes || 0) / polTotal) * 100).toFixed(0) : 0;
                 let isThisVoted = polUserVoted === opt.id;
                 let cardClass = 'option-card-3d rounded-2xl p-4 flex items-center justify-between cursor-pointer';
                 if (polUserVoted) cardClass += isThisVoted ? ' voted-state' : ' unvoted-state';
@@ -455,12 +466,12 @@
                     <div onclick="castVote('politics', '${opt.id}')" class="${cardClass}">
                         <div class="flex items-center gap-3">
                             <div class="relative">
-                                <img src="${opt.photo}" class="w-12 h-12 rounded-xl object-cover border border-white/10" alt="">
-                                <span class="absolute -bottom-1 -right-1 text-sm bg-navy-900 rounded-full px-0.5">${opt.flag}</span>
+                                <img src="${opt.photo || ''}" class="w-12 h-12 rounded-xl object-cover border border-white/10" alt="">
+                                <span class="absolute -bottom-1 -right-1 text-sm bg-navy-900 rounded-full px-1 shadow border border-white/10">${opt.flag || ''}</span>
                             </div>
                             <div>
-                                <h3 class="text-xs font-extrabold text-white">${opt.name}</h3>
-                                <p class="text-[10px] text-slate-400">${opt.subtitle} • <span class="text-saffron-400 font-mono">${opt.votes.toLocaleString()} Votes</span></p>
+                                <h3 class="text-xs font-extrabold text-white">${opt.name || ''}</h3>
+                                <p class="text-[10px] text-slate-400">${opt.subtitle || ''} • <span class="text-saffron-400 font-mono">${(opt.votes || 0).toLocaleString()} Votes</span></p>
                             </div>
                         </div>
                         <div class="flex items-center gap-3">
@@ -474,7 +485,7 @@
             });
 
             // 2. Sports Render (Large Flags & Captain Photos)
-            let spoTotal = pollData.sports.team1.votes + pollData.sports.team2.votes;
+            let spoTotal = (pollData.sports.team1.votes || 0) + (pollData.sports.team2.votes || 0);
             grandTotal += spoTotal;
             document.getElementById('spoTotalVotesDisplay').innerText = spoTotal.toLocaleString() + ' votes';
             document.getElementById('spoQuestion').innerText = pollData.sports.question;
@@ -482,32 +493,32 @@
             let spoContainer = document.getElementById('spoOptionsContainer');
             spoContainer.innerHTML = '';
 
-            let t1Pct = spoTotal > 0 ? ((pollData.sports.team1.votes / spoTotal) * 100).toFixed(0) : 0;
-            let t2Pct = spoTotal > 0 ? ((pollData.sports.team2.votes / spoTotal) * 100).toFixed(0) : 0;
+            let t1Pct = spoTotal > 0 ? (((pollData.sports.team1.votes || 0) / spoTotal) * 100).toFixed(0) : 0;
+            let t2Pct = spoTotal > 0 ? (((pollData.sports.team2.votes || 0) / spoTotal) * 100).toFixed(0) : 0;
 
             spoContainer.innerHTML = `
                 <div class="card-3d rounded-2xl p-5 flex items-center justify-around text-center mb-4 border border-white/10">
                     <div class="space-y-1">
-                        <div class="text-5xl">${pollData.sports.team1.flag}</div>
-                        <h3 class="text-xs font-bold text-white">${pollData.sports.team1.name}</h3>
-                        <p class="text-[10px] text-slate-400">Cap: ${pollData.sports.team1.capName}</p>
+                        <div class="text-5xl">${pollData.sports.team1.flag || ''}</div>
+                        <h3 class="text-xs font-bold text-white">${pollData.sports.team1.name || ''}</h3>
+                        <p class="text-[10px] text-slate-400">Cap: ${pollData.sports.team1.capName || ''}</p>
                         <div class="text-lg font-black text-cyanNeon font-mono">${t1Pct}%</div>
                     </div>
                     <div class="text-sm font-black italic text-cyanNeon">VS</div>
                     <div class="space-y-1">
-                        <div class="text-5xl">${pollData.sports.team2.flag}</div>
-                        <h3 class="text-xs font-bold text-white">${pollData.sports.team2.name}</h3>
-                        <p class="text-[10px] text-slate-400">Cap: ${pollData.sports.team2.capName}</p>
+                        <div class="text-5xl">${pollData.sports.team2.flag || ''}</div>
+                        <h3 class="text-xs font-bold text-white">${pollData.sports.team2.name || ''}</h3>
+                        <p class="text-[10px] text-slate-400">Cap: ${pollData.sports.team2.capName || ''}</p>
                         <div class="text-lg font-black text-cyanNeon font-mono">${t2Pct}%</div>
                     </div>
                 </div>
 
                 <div onclick="castVote('sports', 'team1')" class="option-card-3d rounded-2xl p-4 flex items-center justify-between cursor-pointer ${spoUserVoted ? (spoUserVoted === 'team1' ? 'voted-state' : 'unvoted-state') : ''}">
                     <div class="flex items-center gap-3">
-                        <img src="${pollData.sports.team1.capPhoto}" class="w-12 h-12 rounded-xl object-cover border border-sky-500/30" alt="">
+                        <img src="${pollData.sports.team1.capPhoto || ''}" class="w-12 h-12 rounded-xl object-cover border border-sky-500/30" alt="">
                         <div>
-                            <h3 class="text-xs font-extrabold text-white">${pollData.sports.team1.flag} ${pollData.sports.team1.name} (Cap. ${pollData.sports.team1.capName})</h3>
-                            <p class="text-[10px] text-slate-400 font-mono">${pollData.sports.team1.votes.toLocaleString()} Votes</p>
+                            <h3 class="text-xs font-extrabold text-white">${pollData.sports.team1.flag || ''} ${pollData.sports.team1.name || ''} (Cap. ${pollData.sports.team1.capName || ''})</h3>
+                            <p class="text-[10px] text-slate-400 font-mono">${(pollData.sports.team1.votes || 0).toLocaleString()} Votes</p>
                         </div>
                     </div>
                     <div class="flex items-center gap-3">
@@ -518,10 +529,10 @@
 
                 <div onclick="castVote('sports', 'team2')" class="option-card-3d rounded-2xl p-4 flex items-center justify-between cursor-pointer ${spoUserVoted ? (spoUserVoted === 'team2' ? 'voted-state' : 'unvoted-state') : ''}">
                     <div class="flex items-center gap-3">
-                        <img src="${pollData.sports.team2.capPhoto}" class="w-12 h-12 rounded-xl object-cover border border-sky-500/30" alt="">
+                        <img src="${pollData.sports.team2.capPhoto || ''}" class="w-12 h-12 rounded-xl object-cover border border-sky-500/30" alt="">
                         <div>
-                            <h3 class="text-xs font-extrabold text-white">${pollData.sports.team2.flag} ${pollData.sports.team2.name} (Cap. ${pollData.sports.team2.capName})</h3>
-                            <p class="text-[10px] text-slate-400 font-mono">${pollData.sports.team2.votes.toLocaleString()} Votes</p>
+                            <h3 class="text-xs font-extrabold text-white">${pollData.sports.team2.flag || ''} ${pollData.sports.team2.name || ''} (Cap. ${pollData.sports.team2.capName || ''})</h3>
+                            <p class="text-[10px] text-slate-400 font-mono">${(pollData.sports.team2.votes || 0).toLocaleString()} Votes</p>
                         </div>
                     </div>
                     <div class="flex items-center gap-3">
@@ -532,7 +543,7 @@
             `;
 
             // 3. Cinema Render (5 Movies Releasing This Month)
-            let cinTotal = pollData.cinema.movies.reduce((a, b) => a + b.votes, 0);
+            let cinTotal = pollData.cinema.movies.reduce((a, b) => a + (b.votes || 0), 0);
             grandTotal += cinTotal;
             document.getElementById('cinTotalVotesDisplay').innerText = cinTotal.toLocaleString() + ' votes';
             document.getElementById('cinQuestion').innerText = pollData.cinema.question;
@@ -541,7 +552,7 @@
             cinContainer.innerHTML = '';
 
             pollData.cinema.movies.forEach(mov => {
-                let pct = cinTotal > 0 ? ((mov.votes / cinTotal) * 100).toFixed(0) : 0;
+                let pct = cinTotal > 0 ? (((mov.votes || 0) / cinTotal) * 100).toFixed(0) : 0;
                 let isThisVoted = cinUserVoted === mov.id;
                 let cardClass = 'option-card-3d rounded-2xl p-4 flex items-center justify-between cursor-pointer';
                 if (cinUserVoted) cardClass += isThisVoted ? ' voted-state' : ' unvoted-state';
@@ -549,10 +560,10 @@
                 cinContainer.innerHTML += `
                     <div onclick="castVote('cinema', '${mov.id}')" class="${cardClass}">
                         <div class="flex items-center gap-3">
-                            <img src="${mov.photo}" class="w-12 h-12 rounded-xl object-cover border border-white/10" alt="">
+                            <img src="${mov.photo || ''}" class="w-12 h-12 rounded-xl object-cover border border-white/10" alt="">
                             <div>
-                                <h3 class="text-xs font-extrabold text-white">${mov.title}</h3>
-                                <p class="text-[10px] text-slate-400">${mov.sub} • <span class="text-amber-400 font-mono">${mov.votes.toLocaleString()} Votes</span></p>
+                                <h3 class="text-xs font-extrabold text-white">${mov.title || ''}</h3>
+                                <p class="text-[10px] text-slate-400">${mov.sub || ''} • <span class="text-amber-400 font-mono">${(mov.votes || 0).toLocaleString()} Votes</span></p>
                             </div>
                         </div>
                         <div class="flex items-center gap-3">
@@ -566,7 +577,7 @@
             });
 
             // 4. Trending Render (Big National & International Topics)
-            let trdTotal = pollData.trending.options.reduce((a, b) => a + b.votes, 0);
+            let trdTotal = pollData.trending.options.reduce((a, b) => a + (b.votes || 0), 0);
             grandTotal += trdTotal;
             document.getElementById('trdTotalVotesDisplay').innerText = trdTotal.toLocaleString() + ' votes';
             document.getElementById('trdQuestion').innerText = pollData.trending.question;
@@ -575,7 +586,7 @@
             trdContainer.innerHTML = '';
 
             pollData.trending.options.forEach(opt => {
-                let pct = trdTotal > 0 ? ((opt.votes / trdTotal) * 100).toFixed(0) : 0;
+                let pct = trdTotal > 0 ? (((opt.votes || 0) / trdTotal) * 100).toFixed(0) : 0;
                 let isThisVoted = trdUserVoted === opt.id;
                 let cardClass = 'option-card-3d rounded-2xl p-4 flex items-center justify-between cursor-pointer';
                 if (trdUserVoted) cardClass += isThisVoted ? ' voted-state' : ' unvoted-state';
@@ -583,8 +594,8 @@
                 trdContainer.innerHTML += `
                     <div onclick="castVote('trending', '${opt.id}')" class="${cardClass}">
                         <div>
-                            <h3 class="text-xs font-extrabold text-white">${opt.label}</h3>
-                            <p class="text-[10px] text-slate-400 font-mono mt-0.5">${opt.votes.toLocaleString()} Votes</p>
+                            <h3 class="text-xs font-extrabold text-white">${opt.label || ''}</h3>
+                            <p class="text-[10px] text-slate-400 font-mono mt-0.5">${(opt.votes || 0).toLocaleString()} Votes</p>
                         </div>
                         <div class="flex items-center gap-3">
                             <span class="text-base font-black text-rose-400 font-mono">${pct}%</span>
@@ -608,16 +619,16 @@
 
             if (section === 'politics') {
                 let item = pollData.politics.options.find(o => o.id === optionId);
-                if (item) item.votes++;
+                if (item) item.votes = (item.votes || 0) + 1;
             } else if (section === 'sports') {
-                if (optionId === 'team1') pollData.sports.team1.votes++;
-                else pollData.sports.team2.votes++;
+                if (optionId === 'team1') pollData.sports.team1.votes = (pollData.sports.team1.votes || 0) + 1;
+                else pollData.sports.team2.votes = (pollData.sports.team2.votes || 0) + 1;
             } else if (section === 'cinema') {
                 let item = pollData.cinema.movies.find(m => m.id === optionId);
-                if (item) item.votes++;
+                if (item) item.votes = (item.votes || 0) + 1;
             } else if (section === 'trending') {
                 let item = pollData.trending.options.find(o => o.id === optionId);
-                if (item) item.votes++;
+                if (item) item.votes = (item.votes || 0) + 1;
             }
 
             localStorage.setItem(storageKey, optionId);
@@ -670,29 +681,29 @@
 
         function loadAdminForm() {
             document.getElementById('adminBgColorInput').value = pollData.bgColor || '#070B14';
-            document.getElementById('adminPolQ').value = pollData.politics.question;
-            document.getElementById('adminSpoQ').value = pollData.sports.question;
-            document.getElementById('adminSpoT1Name').value = pollData.sports.team1.name;
-            document.getElementById('adminSpoT1Flag').value = pollData.sports.team1.flag;
-            document.getElementById('adminSpoT1CapName').value = pollData.sports.team1.capName;
-            document.getElementById('adminSpoT1CapPhoto').value = pollData.sports.team1.capPhoto;
-            document.getElementById('adminSpoT2Name').value = pollData.sports.team2.name;
-            document.getElementById('adminSpoT2Flag').value = pollData.sports.team2.flag;
-            document.getElementById('adminSpoT2CapName').value = pollData.sports.team2.capName;
-            document.getElementById('adminSpoT2CapPhoto').value = pollData.sports.team2.capPhoto;
-            document.getElementById('adminCinQ').value = pollData.cinema.question;
-            document.getElementById('adminTrdQ').value = pollData.trending.question;
+            document.getElementById('adminPolQ').value = pollData.politics.question || '';
+            document.getElementById('adminSpoQ').value = pollData.sports.question || '';
+            document.getElementById('adminSpoT1Name').value = pollData.sports.team1.name || '';
+            document.getElementById('adminSpoT1Flag').value = pollData.sports.team1.flag || '';
+            document.getElementById('adminSpoT1CapName').value = pollData.sports.team1.capName || '';
+            document.getElementById('adminSpoT1CapPhoto').value = pollData.sports.team1.capPhoto || '';
+            document.getElementById('adminSpoT2Name').value = pollData.sports.team2.name || '';
+            document.getElementById('adminSpoT2Flag').value = pollData.sports.team2.flag || '';
+            document.getElementById('adminSpoT2CapName').value = pollData.sports.team2.capName || '';
+            document.getElementById('adminSpoT2CapPhoto').value = pollData.sports.team2.capPhoto || '';
+            document.getElementById('adminCinQ').value = pollData.cinema.question || '';
+            document.getElementById('adminTrdQ').value = pollData.trending.question || '';
 
             // Render Politics Options in Admin
             let polOptsHtml = '';
             pollData.politics.options.forEach((opt, idx) => {
                 polOptsHtml += `<div class="bg-navy-900 p-2.5 rounded-xl space-y-1.5">
                     <div class="flex gap-2">
-                        <input type="text" id="adm_pol_name_${idx}" value="${opt.name}" class="flex-1 bg-navy-950 border border-white/10 rounded p-1.5 text-xs text-white" placeholder="Name">
-                        <input type="text" id="adm_pol_sub_${idx}" value="${opt.subtitle}" class="w-28 bg-navy-950 border border-white/10 rounded p-1.5 text-xs text-white" placeholder="Party">
-                        <input type="text" id="adm_pol_flag_${idx}" value="${opt.flag}" class="w-14 bg-navy-950 border border-white/10 rounded p-1.5 text-xs text-white text-center" placeholder="Flag">
+                        <input type="text" id="adm_pol_name_${idx}" value="${opt.name || ''}" class="flex-1 bg-navy-950 border border-white/10 rounded p-1.5 text-xs text-white" placeholder="Name">
+                        <input type="text" id="adm_pol_sub_${idx}" value="${opt.subtitle || ''}" class="w-28 bg-navy-950 border border-white/10 rounded p-1.5 text-xs text-white" placeholder="Party">
+                        <input type="text" id="adm_pol_flag_${idx}" value="${opt.flag || ''}" class="w-14 bg-navy-950 border border-white/10 rounded p-1.5 text-xs text-white text-center" placeholder="Flag">
                     </div>
-                    <input type="text" id="adm_pol_photo_${idx}" value="${opt.photo}" class="w-full bg-navy-950 border border-white/10 rounded p-1.5 text-[10px] text-slate-400 font-mono" placeholder="Photo URL">
+                    <input type="text" id="adm_pol_photo_${idx}" value="${opt.photo || ''}" class="w-full bg-navy-950 border border-white/10 rounded p-1.5 text-[10px] text-slate-400 font-mono" placeholder="Photo URL">
                 </div>`;
             });
             document.getElementById('adminPolOptsList').innerHTML = polOptsHtml;
@@ -702,10 +713,10 @@
             pollData.cinema.movies.forEach((mov, idx) => {
                 cinOptsHtml += `<div class="bg-navy-900 p-2.5 rounded-xl space-y-1.5">
                     <div class="flex gap-2">
-                        <input type="text" id="adm_cin_title_${idx}" value="${mov.title}" class="flex-1 bg-navy-950 border border-white/10 rounded p-1.5 text-xs text-white" placeholder="Movie Title">
-                        <input type="text" id="adm_cin_sub_${idx}" value="${mov.sub}" class="flex-1 bg-navy-950 border border-white/10 rounded p-1.5 text-xs text-white" placeholder="Cast/Details">
+                        <input type="text" id="adm_cin_title_${idx}" value="${mov.title || ''}" class="flex-1 bg-navy-950 border border-white/10 rounded p-1.5 text-xs text-white" placeholder="Movie Title">
+                        <input type="text" id="adm_cin_sub_${idx}" value="${mov.sub || ''}" class="flex-1 bg-navy-950 border border-white/10 rounded p-1.5 text-xs text-white" placeholder="Cast/Details">
                     </div>
-                    <input type="text" id="adm_cin_photo_${idx}" value="${mov.photo}" class="w-full bg-navy-950 border border-white/10 rounded p-1.5 text-[10px] text-slate-400 font-mono" placeholder="Poster URL">
+                    <input type="text" id="adm_cin_photo_${idx}" value="${mov.photo || ''}" class="w-full bg-navy-950 border border-white/10 rounded p-1.5 text-[10px] text-slate-400 font-mono" placeholder="Poster URL">
                 </div>`;
             });
             document.getElementById('adminCinOptsList').innerHTML = cinOptsHtml;
@@ -714,7 +725,7 @@
             let trdOptsHtml = '';
             pollData.trending.options.forEach((opt, idx) => {
                 trdOptsHtml += `<div class="bg-navy-900 p-2 rounded-xl">
-                    <input type="text" id="adm_trd_label_${idx}" value="${opt.label}" class="w-full bg-navy-950 border border-white/10 rounded p-1.5 text-xs text-white" placeholder="Topic Label">
+                    <input type="text" id="adm_trd_label_${idx}" value="${opt.label || ''}" class="w-full bg-navy-950 border border-white/10 rounded p-1.5 text-xs text-white" placeholder="Topic Label">
                 </div>`;
             });
             document.getElementById('adminTrdOptsList').innerHTML = trdOptsHtml;
