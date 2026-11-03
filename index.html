@@ -208,7 +208,7 @@
                     <span id="cinTotalVotesDisplay" class="text-[11px] font-mono text-slate-400">0 votes</span>
                 </div>
                 <div>
-                    <h2 id="cinQuestion" class="text-base font-extrabold text-white">Top 4 Blockbusters: First Day First Show Interest</h2>
+                    <h2 id="cinQuestion" class="text-base font-extrabold text-white">Top 5 Blockbusters Releasing This Month</h2>
                     <p class="text-[11px] text-slate-400 mt-0.5">Audience Expectation Approval Index</p>
                 </div>
                 
@@ -237,8 +237,8 @@
                     <span id="trdTotalVotesDisplay" class="text-[11px] font-mono text-slate-400">0 votes</span>
                 </div>
                 <div>
-                    <h2 id="trdQuestion" class="text-base font-extrabold text-white">Electoral Reforms & Voting System Transparency</h2>
-                    <p class="text-[11px] text-slate-400 mt-0.5">What is your opinion on EVM & VVPAT counting process?</p>
+                    <h2 id="trdQuestion" class="text-base font-extrabold text-white">Big National & International Current Affairs</h2>
+                    <p class="text-[11px] text-slate-400 mt-0.5">What is your opinion on major ongoing global & domestic topics?</p>
                 </div>
                 
                 <div id="trdOptionsContainer" class="space-y-3"></div>
@@ -278,7 +278,7 @@
                 </div>
             </div>
 
-            <!-- UNLOCKED FULL ADMIN PANEL (Editable: Question, Options, Flag, Photo, Bg Color) -->
+            <!-- UNLOCKED FULL ADMIN PANEL -->
             <div id="adminUnlockedPanel" class="hidden space-y-6">
                 <div class="card-3d rounded-3xl p-6 space-y-4">
                     <div class="flex items-center justify-between border-b border-white/10 pb-3">
@@ -294,53 +294,57 @@
 
                         <!-- Politics Config -->
                         <div class="bg-navy-950 p-4 rounded-2xl border border-white/5 space-y-3">
-                            <h4 class="text-xs font-extrabold text-saffron-400">🏛️ Politics Section</h4>
+                            <h4 class="text-xs font-extrabold text-saffron-400">🏛️ Politics Section (5 Candidates)</h4>
                             <div>
                                 <label class="text-[10px] text-slate-400">Question:</label>
                                 <input type="text" id="adminPolQ" class="w-full bg-navy-900 border border-white/10 rounded-lg p-2 text-xs text-white mt-1">
                             </div>
-                            <div id="adminPolOptsList" class="space-y-2"></div>
+                            <div id="adminPolOptsList" class="space-y-3"></div>
                         </div>
 
                         <!-- Sports Config -->
                         <div class="bg-navy-950 p-4 rounded-2xl border border-white/5 space-y-3">
-                            <h4 class="text-xs font-extrabold text-sky-400">🏏 Sports Section</h4>
+                            <h4 class="text-xs font-extrabold text-sky-400">🏏 Sports Section (Flags & Captain Photos)</h4>
                             <div>
                                 <label class="text-[10px] text-slate-400">Question:</label>
                                 <input type="text" id="adminSpoQ" class="w-full bg-navy-900 border border-white/10 rounded-lg p-2 text-xs text-white mt-1">
                             </div>
-                            <div class="grid grid-cols-2 gap-2">
-                                <div>
-                                    <label class="text-[10px] text-slate-400">Team 1 Name & Flag:</label>
-                                    <input type="text" id="adminSpoT1Name" class="w-full bg-navy-900 border border-white/10 rounded-lg p-1.5 text-xs text-white mt-1">
-                                    <input type="text" id="adminSpoT1Flag" class="w-full bg-navy-900 border border-white/10 rounded-lg p-1.5 text-xs text-white mt-1" placeholder="Flag Emoji">
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="bg-navy-900 p-2.5 rounded-xl space-y-2">
+                                    <label class="text-[10px] text-sky-400 font-bold">Team 1 Details:</label>
+                                    <input type="text" id="adminSpoT1Name" class="w-full bg-navy-950 border border-white/10 rounded p-1.5 text-xs text-white" placeholder="Team Name">
+                                    <input type="text" id="adminSpoT1Flag" class="w-full bg-navy-950 border border-white/10 rounded p-1.5 text-xs text-white" placeholder="Flag Emoji">
+                                    <input type="text" id="adminSpoT1CapName" class="w-full bg-navy-950 border border-white/10 rounded p-1.5 text-xs text-white" placeholder="Captain Name">
+                                    <input type="text" id="adminSpoT1CapPhoto" class="w-full bg-navy-950 border border-white/10 rounded p-1.5 text-[10px] text-slate-400 font-mono" placeholder="Captain Photo URL">
                                 </div>
-                                <div>
-                                    <label class="text-[10px] text-slate-400">Team 2 Name & Flag:</label>
-                                    <input type="text" id="adminSpoT2Name" class="w-full bg-navy-900 border border-white/10 rounded-lg p-1.5 text-xs text-white mt-1">
-                                    <input type="text" id="adminSpoT2Flag" class="w-full bg-navy-900 border border-white/10 rounded-lg p-1.5 text-xs text-white mt-1" placeholder="Flag Emoji">
+                                <div class="bg-navy-900 p-2.5 rounded-xl space-y-2">
+                                    <label class="text-[10px] text-sky-400 font-bold">Team 2 Details:</label>
+                                    <input type="text" id="adminSpoT2Name" class="w-full bg-navy-950 border border-white/10 rounded p-1.5 text-xs text-white" placeholder="Team Name">
+                                    <input type="text" id="adminSpoT2Flag" class="w-full bg-navy-950 border border-white/10 rounded p-1.5 text-xs text-white" placeholder="Flag Emoji">
+                                    <input type="text" id="adminSpoT2CapName" class="w-full bg-navy-950 border border-white/10 rounded p-1.5 text-xs text-white" placeholder="Captain Name">
+                                    <input type="text" id="adminSpoT2CapPhoto" class="w-full bg-navy-950 border border-white/10 rounded p-1.5 text-[10px] text-slate-400 font-mono" placeholder="Captain Photo URL">
                                 </div>
                             </div>
                         </div>
 
                         <!-- Cinema Config -->
                         <div class="bg-navy-950 p-4 rounded-2xl border border-white/5 space-y-3">
-                            <h4 class="text-xs font-extrabold text-amber-400">🎬 Cinema Section</h4>
+                            <h4 class="text-xs font-extrabold text-amber-400">🎬 Cinema Section (5 Movies)</h4>
                             <div>
                                 <label class="text-[10px] text-slate-400">Question:</label>
                                 <input type="text" id="adminCinQ" class="w-full bg-navy-900 border border-white/10 rounded-lg p-2 text-xs text-white mt-1">
                             </div>
-                            <div id="adminCinOptsList" class="space-y-2"></div>
+                            <div id="adminCinOptsList" class="space-y-3"></div>
                         </div>
 
                         <!-- Trending Config -->
                         <div class="bg-navy-950 p-4 rounded-2xl border border-white/5 space-y-3">
-                            <h4 class="text-xs font-extrabold text-rose-400">🚨 Trending Section</h4>
+                            <h4 class="text-xs font-extrabold text-rose-400">🚨 Trending Section (Big Topics)</h4>
                             <div>
                                 <label class="text-[10px] text-slate-400">Question:</label>
                                 <input type="text" id="adminTrdQ" class="w-full bg-navy-900 border border-white/10 rounded-lg p-2 text-xs text-white mt-1">
                             </div>
-                            <div id="adminTrdOptsList" class="space-y-2"></div>
+                            <div id="adminTrdOptsList" class="space-y-3"></div>
                         </div>
                     </div>
                 </div>
@@ -362,29 +366,35 @@
             politics: {
                 question: "Who is your choice for India's Next Prime Minister (2029)?",
                 options: [
-                    { id: 'pol_1', name: "Narendra Modi", subtitle: "BJP / NDA", photo: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150", votes: 8520 },
-                    { id: 'pol_2', name: "Rahul Gandhi", subtitle: "INC / INDIA", photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150", votes: 4890 },
-                    { id: 'pol_3', name: "Yogi Adityanath", subtitle: "BJP / UP", photo: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150", votes: 2310 }
+                    { id: 'pol_1', name: "Narendra Modi", subtitle: "BJP / NDA", flag: "🪷", photo: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150", votes: 8520 },
+                    { id: 'pol_2', name: "Rahul Gandhi", subtitle: "INC / INDIA", flag: "🖐️", photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150", votes: 4890 },
+                    { id: 'pol_3', name: "Yogi Adityanath", subtitle: "BJP / UP", flag: "🚩", photo: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150", votes: 2310 },
+                    { id: 'pol_4', name: "Vijay Thalapathy", subtitle: "TVK / TN", flag: "⭐", photo: "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=150", votes: 3150 },
+                    { id: 'pol_5', name: "Arvind Kejriwal", subtitle: "AAP / National", flag: "🧹", photo: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=150", votes: 1940 }
                 ]
             },
             sports: {
                 question: "Who will win today's T20 Clash?",
-                team1: { name: "INDIA", flag: "🇮🇳", votes: 105080 },
-                team2: { name: "AUSTRALIA", flag: "🇦🇺", votes: 36920 }
+                team1: { name: "INDIA", flag: "🇮🇳", capName: "Rohit Sharma", capPhoto: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150", votes: 105080 },
+                team2: { name: "AUSTRALIA", flag: "🇦🇺", capName: "Pat Cummins", capPhoto: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=150", votes: 36920 }
             },
             cinema: {
-                question: "Top 4 Blockbusters: First Day First Show Interest",
+                question: "Top 5 Blockbusters Releasing This Month",
                 movies: [
                     { id: 'cin_1', title: "Ramayana: Part 1", sub: "Ranbir Kapoor & Yash", date: "Diwali 2026", photo: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=150", votes: 4500 },
-                    { id: 'cin_2', title: "War 2", sub: "Hrithik Roshan & Jr. NTR", date: "Independence Day", photo: "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=150", votes: 2700 }
+                    { id: 'cin_2', title: "War 2", sub: "Hrithik Roshan & Jr. NTR", date: "Independence Day", photo: "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=150", votes: 2700 },
+                    { id: 'cin_3', title: "Pushpa 3", sub: "Allu Arjun", date: "This Month", photo: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150", votes: 3100 },
+                    { id: 'cin_4', title: "Avatar 3", sub: "James Cameron", date: "Global Release", photo: "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=150", votes: 1850 },
+                    { id: 'cin_5', title: "Toxic", sub: "Yash Blockbuster", date: "Upcoming", photo: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=150", votes: 2100 }
                 ]
             },
             trending: {
-                question: "What is your opinion on EVM & VVPAT counting process?",
+                question: "Big National & International Current Affairs",
                 options: [
-                    { id: 'trd_1', label: "EVM & VVPAT system is 100% secure", votes: 4700 },
-                    { id: 'trd_2', label: "100% VVPAT slip matching required", votes: 3900 },
-                    { id: 'trd_3', label: "Return to paper ballot voting", votes: 1400 }
+                    { id: 'trd_1', label: "Global AI Regulations & Safety Laws", votes: 5400 },
+                    { id: 'trd_2', label: "Economic Growth & Inflation Control", votes: 4200 },
+                    { id: 'trd_3', label: "Space Exploration & Chandrayaan Missions", votes: 3800 },
+                    { id: 'trd_4', label: "Electoral Reforms & VVPAT Transparency", votes: 2900 }
                 ]
             }
         };
@@ -426,7 +436,7 @@
         function renderPublicPortal() {
             let grandTotal = 0;
 
-            // Politics Render
+            // 1. Politics Render (5 Candidates with Votes, Party & Flag)
             let polTotal = pollData.politics.options.reduce((a, b) => a + b.votes, 0);
             grandTotal += polTotal;
             document.getElementById('polTotalVotesDisplay').innerText = polTotal.toLocaleString() + ' votes';
@@ -444,10 +454,13 @@
                 polContainer.innerHTML += `
                     <div onclick="castVote('politics', '${opt.id}')" class="${cardClass}">
                         <div class="flex items-center gap-3">
-                            <img src="${opt.photo}" class="w-12 h-12 rounded-xl object-cover border border-white/10" alt="">
+                            <div class="relative">
+                                <img src="${opt.photo}" class="w-12 h-12 rounded-xl object-cover border border-white/10" alt="">
+                                <span class="absolute -bottom-1 -right-1 text-sm bg-navy-900 rounded-full px-0.5">${opt.flag}</span>
+                            </div>
                             <div>
                                 <h3 class="text-xs font-extrabold text-white">${opt.name}</h3>
-                                <p class="text-[10px] text-slate-400">${opt.subtitle}</p>
+                                <p class="text-[10px] text-slate-400">${opt.subtitle} • <span class="text-saffron-400 font-mono">${opt.votes.toLocaleString()} Votes</span></p>
                             </div>
                         </div>
                         <div class="flex items-center gap-3">
@@ -460,7 +473,7 @@
                 `;
             });
 
-            // Sports Render
+            // 2. Sports Render (Large Flags & Captain Photos)
             let spoTotal = pollData.sports.team1.votes + pollData.sports.team2.votes;
             grandTotal += spoTotal;
             document.getElementById('spoTotalVotesDisplay').innerText = spoTotal.toLocaleString() + ' votes';
@@ -473,24 +486,29 @@
             let t2Pct = spoTotal > 0 ? ((pollData.sports.team2.votes / spoTotal) * 100).toFixed(0) : 0;
 
             spoContainer.innerHTML = `
-                <div class="card-3d rounded-2xl p-4 flex items-center justify-around text-center mb-4 border border-white/10">
-                    <div>
-                        <div class="text-3xl">${pollData.sports.team1.flag}</div>
-                        <h3 class="text-xs font-bold text-white mt-1">${pollData.sports.team1.name}</h3>
+                <div class="card-3d rounded-2xl p-5 flex items-center justify-around text-center mb-4 border border-white/10">
+                    <div class="space-y-1">
+                        <div class="text-5xl">${pollData.sports.team1.flag}</div>
+                        <h3 class="text-xs font-bold text-white">${pollData.sports.team1.name}</h3>
+                        <p class="text-[10px] text-slate-400">Cap: ${pollData.sports.team1.capName}</p>
                         <div class="text-lg font-black text-cyanNeon font-mono">${t1Pct}%</div>
                     </div>
                     <div class="text-sm font-black italic text-cyanNeon">VS</div>
-                    <div>
-                        <div class="text-3xl">${pollData.sports.team2.flag}</div>
-                        <h3 class="text-xs font-bold text-white mt-1">${pollData.sports.team2.name}</h3>
+                    <div class="space-y-1">
+                        <div class="text-5xl">${pollData.sports.team2.flag}</div>
+                        <h3 class="text-xs font-bold text-white">${pollData.sports.team2.name}</h3>
+                        <p class="text-[10px] text-slate-400">Cap: ${pollData.sports.team2.capName}</p>
                         <div class="text-lg font-black text-cyanNeon font-mono">${t2Pct}%</div>
                     </div>
                 </div>
 
                 <div onclick="castVote('sports', 'team1')" class="option-card-3d rounded-2xl p-4 flex items-center justify-between cursor-pointer ${spoUserVoted ? (spoUserVoted === 'team1' ? 'voted-state' : 'unvoted-state') : ''}">
-                    <div>
-                        <h3 class="text-xs font-extrabold text-white">${pollData.sports.team1.flag} ${pollData.sports.team1.name}</h3>
-                        <p class="text-[10px] text-slate-400 font-mono">${pollData.sports.team1.votes.toLocaleString()} Votes</p>
+                    <div class="flex items-center gap-3">
+                        <img src="${pollData.sports.team1.capPhoto}" class="w-12 h-12 rounded-xl object-cover border border-sky-500/30" alt="">
+                        <div>
+                            <h3 class="text-xs font-extrabold text-white">${pollData.sports.team1.flag} ${pollData.sports.team1.name} (Cap. ${pollData.sports.team1.capName})</h3>
+                            <p class="text-[10px] text-slate-400 font-mono">${pollData.sports.team1.votes.toLocaleString()} Votes</p>
+                        </div>
                     </div>
                     <div class="flex items-center gap-3">
                         <span class="text-base font-black text-cyanNeon font-mono">${t1Pct}%</span>
@@ -499,9 +517,12 @@
                 </div>
 
                 <div onclick="castVote('sports', 'team2')" class="option-card-3d rounded-2xl p-4 flex items-center justify-between cursor-pointer ${spoUserVoted ? (spoUserVoted === 'team2' ? 'voted-state' : 'unvoted-state') : ''}">
-                    <div>
-                        <h3 class="text-xs font-extrabold text-white">${pollData.sports.team2.flag} ${pollData.sports.team2.name}</h3>
-                        <p class="text-[10px] text-slate-400 font-mono">${pollData.sports.team2.votes.toLocaleString()} Votes</p>
+                    <div class="flex items-center gap-3">
+                        <img src="${pollData.sports.team2.capPhoto}" class="w-12 h-12 rounded-xl object-cover border border-sky-500/30" alt="">
+                        <div>
+                            <h3 class="text-xs font-extrabold text-white">${pollData.sports.team2.flag} ${pollData.sports.team2.name} (Cap. ${pollData.sports.team2.capName})</h3>
+                            <p class="text-[10px] text-slate-400 font-mono">${pollData.sports.team2.votes.toLocaleString()} Votes</p>
+                        </div>
                     </div>
                     <div class="flex items-center gap-3">
                         <span class="text-base font-black text-cyanNeon font-mono">${t2Pct}%</span>
@@ -510,7 +531,7 @@
                 </div>
             `;
 
-            // Cinema Render
+            // 3. Cinema Render (5 Movies Releasing This Month)
             let cinTotal = pollData.cinema.movies.reduce((a, b) => a + b.votes, 0);
             grandTotal += cinTotal;
             document.getElementById('cinTotalVotesDisplay').innerText = cinTotal.toLocaleString() + ' votes';
@@ -531,7 +552,7 @@
                             <img src="${mov.photo}" class="w-12 h-12 rounded-xl object-cover border border-white/10" alt="">
                             <div>
                                 <h3 class="text-xs font-extrabold text-white">${mov.title}</h3>
-                                <p class="text-[10px] text-slate-400">${mov.sub}</p>
+                                <p class="text-[10px] text-slate-400">${mov.sub} • <span class="text-amber-400 font-mono">${mov.votes.toLocaleString()} Votes</span></p>
                             </div>
                         </div>
                         <div class="flex items-center gap-3">
@@ -544,7 +565,7 @@
                 `;
             });
 
-            // Trending Render
+            // 4. Trending Render (Big National & International Topics)
             let trdTotal = pollData.trending.options.reduce((a, b) => a + b.votes, 0);
             grandTotal += trdTotal;
             document.getElementById('trdTotalVotesDisplay').innerText = trdTotal.toLocaleString() + ' votes';
@@ -563,6 +584,7 @@
                     <div onclick="castVote('trending', '${opt.id}')" class="${cardClass}">
                         <div>
                             <h3 class="text-xs font-extrabold text-white">${opt.label}</h3>
+                            <p class="text-[10px] text-slate-400 font-mono mt-0.5">${opt.votes.toLocaleString()} Votes</p>
                         </div>
                         <div class="flex items-center gap-3">
                             <span class="text-base font-black text-rose-400 font-mono">${pct}%</span>
@@ -652,20 +674,50 @@
             document.getElementById('adminSpoQ').value = pollData.sports.question;
             document.getElementById('adminSpoT1Name').value = pollData.sports.team1.name;
             document.getElementById('adminSpoT1Flag').value = pollData.sports.team1.flag;
+            document.getElementById('adminSpoT1CapName').value = pollData.sports.team1.capName;
+            document.getElementById('adminSpoT1CapPhoto').value = pollData.sports.team1.capPhoto;
             document.getElementById('adminSpoT2Name').value = pollData.sports.team2.name;
             document.getElementById('adminSpoT2Flag').value = pollData.sports.team2.flag;
+            document.getElementById('adminSpoT2CapName').value = pollData.sports.team2.capName;
+            document.getElementById('adminSpoT2CapPhoto').value = pollData.sports.team2.capPhoto;
             document.getElementById('adminCinQ').value = pollData.cinema.question;
             document.getElementById('adminTrdQ').value = pollData.trending.question;
 
-            // Render dynamic options in admin
+            // Render Politics Options in Admin
             let polOptsHtml = '';
             pollData.politics.options.forEach((opt, idx) => {
-                polOptsHtml += `<div class="bg-navy-900 p-2 rounded-lg space-y-1">
-                    <input type="text" id="adm_pol_name_${idx}" value="${opt.name}" class="w-full bg-navy-950 border border-white/10 rounded p-1 text-xs text-white" placeholder="Name">
-                    <input type="text" id="adm_pol_photo_${idx}" value="${opt.photo}" class="w-full bg-navy-950 border border-white/10 rounded p-1 text-[10px] text-slate-400 font-mono" placeholder="Photo URL">
+                polOptsHtml += `<div class="bg-navy-900 p-2.5 rounded-xl space-y-1.5">
+                    <div class="flex gap-2">
+                        <input type="text" id="adm_pol_name_${idx}" value="${opt.name}" class="flex-1 bg-navy-950 border border-white/10 rounded p-1.5 text-xs text-white" placeholder="Name">
+                        <input type="text" id="adm_pol_sub_${idx}" value="${opt.subtitle}" class="w-28 bg-navy-950 border border-white/10 rounded p-1.5 text-xs text-white" placeholder="Party">
+                        <input type="text" id="adm_pol_flag_${idx}" value="${opt.flag}" class="w-14 bg-navy-950 border border-white/10 rounded p-1.5 text-xs text-white text-center" placeholder="Flag">
+                    </div>
+                    <input type="text" id="adm_pol_photo_${idx}" value="${opt.photo}" class="w-full bg-navy-950 border border-white/10 rounded p-1.5 text-[10px] text-slate-400 font-mono" placeholder="Photo URL">
                 </div>`;
             });
             document.getElementById('adminPolOptsList').innerHTML = polOptsHtml;
+
+            // Render Cinema Options in Admin
+            let cinOptsHtml = '';
+            pollData.cinema.movies.forEach((mov, idx) => {
+                cinOptsHtml += `<div class="bg-navy-900 p-2.5 rounded-xl space-y-1.5">
+                    <div class="flex gap-2">
+                        <input type="text" id="adm_cin_title_${idx}" value="${mov.title}" class="flex-1 bg-navy-950 border border-white/10 rounded p-1.5 text-xs text-white" placeholder="Movie Title">
+                        <input type="text" id="adm_cin_sub_${idx}" value="${mov.sub}" class="flex-1 bg-navy-950 border border-white/10 rounded p-1.5 text-xs text-white" placeholder="Cast/Details">
+                    </div>
+                    <input type="text" id="adm_cin_photo_${idx}" value="${mov.photo}" class="w-full bg-navy-950 border border-white/10 rounded p-1.5 text-[10px] text-slate-400 font-mono" placeholder="Poster URL">
+                </div>`;
+            });
+            document.getElementById('adminCinOptsList').innerHTML = cinOptsHtml;
+
+            // Render Trending Options in Admin
+            let trdOptsHtml = '';
+            pollData.trending.options.forEach((opt, idx) => {
+                trdOptsHtml += `<div class="bg-navy-900 p-2 rounded-xl">
+                    <input type="text" id="adm_trd_label_${idx}" value="${opt.label}" class="w-full bg-navy-950 border border-white/10 rounded p-1.5 text-xs text-white" placeholder="Topic Label">
+                </div>`;
+            });
+            document.getElementById('adminTrdOptsList').innerHTML = trdOptsHtml;
         }
 
         function saveAdminChanges() {
@@ -674,16 +726,38 @@
             pollData.sports.question = document.getElementById('adminSpoQ').value;
             pollData.sports.team1.name = document.getElementById('adminSpoT1Name').value;
             pollData.sports.team1.flag = document.getElementById('adminSpoT1Flag').value;
+            pollData.sports.team1.capName = document.getElementById('adminSpoT1CapName').value;
+            pollData.sports.team1.capPhoto = document.getElementById('adminSpoT1CapPhoto').value;
             pollData.sports.team2.name = document.getElementById('adminSpoT2Name').value;
             pollData.sports.team2.flag = document.getElementById('adminSpoT2Flag').value;
+            pollData.sports.team2.capName = document.getElementById('adminSpoT2CapName').value;
+            pollData.sports.team2.capPhoto = document.getElementById('adminSpoT2CapPhoto').value;
             pollData.cinema.question = document.getElementById('adminCinQ').value;
             pollData.trending.question = document.getElementById('adminTrdQ').value;
 
             pollData.politics.options.forEach((opt, idx) => {
                 let nameEl = document.getElementById(`adm_pol_name_${idx}`);
+                let subEl = document.getElementById(`adm_pol_sub_${idx}`);
+                let flagEl = document.getElementById(`adm_pol_flag_${idx}`);
                 let photoEl = document.getElementById(`adm_pol_photo_${idx}`);
                 if (nameEl) opt.name = nameEl.value;
+                if (subEl) opt.subtitle = subEl.value;
+                if (flagEl) opt.flag = flagEl.value;
                 if (photoEl) opt.photo = photoEl.value;
+            });
+
+            pollData.cinema.movies.forEach((mov, idx) => {
+                let titleEl = document.getElementById(`adm_cin_title_${idx}`);
+                let subEl = document.getElementById(`adm_cin_sub_${idx}`);
+                let photoEl = document.getElementById(`adm_cin_photo_${idx}`);
+                if (titleEl) mov.title = titleEl.value;
+                if (subEl) mov.sub = subEl.value;
+                if (photoEl) mov.photo = photoEl.value;
+            });
+
+            pollData.trending.options.forEach((opt, idx) => {
+                let labelEl = document.getElementById(`adm_trd_label_${idx}`);
+                if (labelEl) opt.label = labelEl.value;
             });
 
             localStorage.setItem('janmat_custom_data', JSON.stringify(pollData));
