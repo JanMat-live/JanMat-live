@@ -54,7 +54,6 @@
             box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.08);
         }
 
-        /* 3D Elevated Green Voted State */
         .option-card-3d.voted-state {
             background: linear-gradient(135deg, rgba(16, 185, 129, 0.35), rgba(6, 78, 59, 0.6)) !important;
             border: 2px solid #10B981 !important;
@@ -63,7 +62,6 @@
             opacity: 1 !important;
         }
 
-        /* 3D Crimson Red Unvoted State */
         .option-card-3d.unvoted-state {
             background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(127, 29, 29, 0.3)) !important;
             border: 1px solid rgba(239, 68, 68, 0.3) !important;
@@ -88,7 +86,6 @@
         <div class="tricolor-glow h-1 w-full"></div>
         <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <!-- Authentic Indian Audience High-Tech Logo Emblem -->
                 <div class="relative w-11 h-11 rounded-xl bg-gradient-to-tr from-saffron-500 via-white to-emerald-500 p-0.5 shadow-lg shadow-saffron-500/20 flex items-center justify-center">
                     <div class="w-full h-full bg-navy-950 rounded-[10px] flex items-center justify-center overflow-hidden relative">
                         <svg class="w-7 h-7 text-saffron-500" viewBox="0 0 24 24" fill="currentColor">
@@ -101,17 +98,14 @@
                 <div>
                     <h1 class="text-lg font-black tracking-tight text-white flex items-center gap-2">
                         JanMat<span class="text-saffron-500">Live</span>
-                        <span class="text-[10px] font-bold px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-                            LIVE POLLS
-                        </span>
                     </h1>
-                    <p class="text-[10px] text-slate-400 font-medium">All India Real-Time Polling Dashboard</p>
+                    <p class="text-[10px] text-slate-400 font-medium">150 Cr Verified Public Sentiment</p>
                 </div>
             </div>
 
             <!-- TOTAL CONSOLIDATED VOTES COUNTER -->
             <div class="bg-navy-900/80 px-3.5 py-1.5 rounded-xl border border-white/10 text-right">
-                <span class="block text-[9px] font-bold text-slate-400 uppercase tracking-wider">Total Platform Votes</span>
+                <span class="block text-[9px] font-bold text-slate-400 uppercase tracking-wider">Total Votes</span>
                 <span id="totalPlatformVotesHeader" class="text-sm font-black text-saffron-400 font-mono">0</span>
             </div>
         </div>
@@ -131,21 +125,37 @@
         <!-- ================= PUBLIC PORTAL ================= -->
         <div id="viewPublicPortal" class="space-y-8">
 
-            <!-- SECTION 1: POLITICS -->
-            <div class="card-3d rounded-3xl p-6 space-y-4">
-                <div class="flex items-center justify-between border-b border-white/10 pb-3">
-                    <span class="text-xs font-extrabold text-saffron-400 flex items-center gap-2">
-                        🏛️ POLITICS 2029
-                    </span>
-                    <span id="polTotalVotesDisplay" class="text-[11px] font-mono text-slate-400">Total Votes: 0</span>
-                </div>
-                <h2 id="polQuestion" class="text-base font-extrabold text-white">Who is your choice for PM 2029?</h2>
-                
-                <div id="polOptionsContainer" class="space-y-3">
-                    <!-- Dynamic Politics Options -->
-                </div>
+            <!-- SECTION NAVIGATION TABS -->
+            <div class="flex overflow-x-auto gap-2 bg-navy-900 p-1.5 rounded-2xl border border-white/10 scrollbar-none">
+                <button onclick="switchPublicSection('politics')" id="pubTabBtn-politics" class="pub-tab-btn flex-1 min-w-[90px] py-2 rounded-xl text-xs font-black transition-all bg-saffron-500 text-navy-950 shadow-md">
+                    🏛️ Politics
+                </button>
+                <button onclick="switchPublicSection('sports')" id="pubTabBtn-sports" class="pub-tab-btn flex-1 min-w-[90px] py-2 rounded-xl text-xs font-black transition-all text-slate-400 hover:text-white">
+                    🏏 Sports
+                </button>
+                <button onclick="switchPublicSection('cinema')" id="pubTabBtn-cinema" class="pub-tab-btn flex-1 min-w-[90px] py-2 rounded-xl text-xs font-black transition-all text-slate-400 hover:text-white">
+                    🎬 Cinema
+                </button>
+                <button onclick="switchPublicSection('trending')" id="pubTabBtn-trending" class="pub-tab-btn flex-1 min-w-[90px] py-2 rounded-xl text-xs font-black transition-all text-slate-400 hover:text-white">
+                    🚨 Trending
+                </button>
+            </div>
 
-                <!-- Action Bar: Share & Comment -->
+            <!-- SECTION 1: POLITICS -->
+            <div id="pubSection-politics" class="pub-section card-3d rounded-3xl p-6 space-y-4">
+                <div class="flex items-center justify-between border-b border-white/10 pb-3">
+                    <span class="text-xs font-extrabold text-saffron-400 flex items-center gap-2 bg-saffron-500/10 px-3 py-1 rounded-full border border-saffron-500/20">
+                        🏛️ TOPIC 1 • POLITICS
+                    </span>
+                    <span id="polTotalVotesDisplay" class="text-[11px] font-mono text-slate-400">0 votes</span>
+                </div>
+                <div>
+                    <h2 id="polQuestion" class="text-base font-extrabold text-white">Who is your choice for India's Next Prime Minister (2029)?</h2>
+                    <p class="text-[11px] text-slate-400 mt-0.5">Nationwide Public Sentiment Survey</p>
+                </div>
+                
+                <div id="polOptionsContainer" class="space-y-3"></div>
+
                 <div class="pt-2 border-t border-white/5 flex flex-wrap gap-2 justify-between items-center">
                     <button onclick="sharePoll('Politics 2029')" class="px-4 py-2 rounded-xl bg-navy-900 border border-white/10 hover:border-saffron-500/50 text-xs font-bold text-slate-300 hover:text-white transition flex items-center gap-1.5">
                         🔗 Copy Share Link
@@ -161,23 +171,19 @@
             </div>
 
             <!-- SECTION 2: SPORTS MATCH -->
-            <div class="card-3d rounded-3xl p-6 space-y-4">
+            <div id="pubSection-sports" class="pub-section card-3d rounded-3xl p-6 space-y-4 hidden">
                 <div class="flex items-center justify-between border-b border-white/10 pb-3">
-                    <span class="text-xs font-extrabold text-sky-400 flex items-center gap-2">
-                        🏏 SPORTS MATCH FACE-OFF
+                    <span class="text-xs font-extrabold text-sky-400 flex items-center gap-2 bg-sky-500/10 px-3 py-1 rounded-full border border-sky-500/20">
+                        🏏 TOPIC 2 • SPORTS MATCH
                     </span>
-                    <div class="flex items-center gap-2">
-                        <span class="text-[10px] font-mono text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded-md border border-amber-500/20" id="sportsTimerDisplay">
-                            ⏱️ 02h 45m 12s
-                        </span>
-                        <span id="spoTotalVotesDisplay" class="text-[11px] font-mono text-slate-400">Total: 0</span>
-                    </div>
+                    <span id="spoTotalVotesDisplay" class="text-[11px] font-mono text-slate-400">0 votes</span>
                 </div>
-                <h2 id="spoQuestion" class="text-base font-extrabold text-white">Who will win today's T20 Clash?</h2>
+                <div>
+                    <h2 id="spoQuestion" class="text-base font-extrabold text-white">Who will win today's T20 Clash?</h2>
+                    <p class="text-[11px] text-amber-400 font-mono mt-0.5" id="sportsTimerDisplay">⏱️ 02h 45m 12s</p>
+                </div>
                 
-                <div id="spoOptionsContainer" class="grid grid-cols-2 gap-4">
-                    <!-- Dynamic Sports Options -->
-                </div>
+                <div id="spoOptionsContainer" class="space-y-3"></div>
 
                 <div class="pt-2 border-t border-white/5 flex flex-wrap gap-2 justify-between items-center">
                     <button onclick="sharePoll('Sports Match')" class="px-4 py-2 rounded-xl bg-navy-900 border border-white/10 hover:border-sky-500/50 text-xs font-bold text-slate-300 hover:text-white transition flex items-center gap-1.5">
@@ -194,18 +200,19 @@
             </div>
 
             <!-- SECTION 3: CINEMA HYPE -->
-            <div class="card-3d rounded-3xl p-6 space-y-4">
+            <div id="pubSection-cinema" class="pub-section card-3d rounded-3xl p-6 space-y-4 hidden">
                 <div class="flex items-center justify-between border-b border-white/10 pb-3">
-                    <span class="text-xs font-extrabold text-amber-400 flex items-center gap-2">
-                        🎬 CINEMA BOX OFFICE HYPE
+                    <span class="text-xs font-extrabold text-amber-400 flex items-center gap-2 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">
+                        🎬 TOPIC 3 • CINEMA HYPE
                     </span>
-                    <span id="cinTotalVotesDisplay" class="text-[11px] font-mono text-slate-400">Total: 0</span>
+                    <span id="cinTotalVotesDisplay" class="text-[11px] font-mono text-slate-400">0 votes</span>
                 </div>
-                <h2 id="cinQuestion" class="text-base font-extrabold text-white">Which upcoming movie are you booking First Day First Show?</h2>
+                <div>
+                    <h2 id="cinQuestion" class="text-base font-extrabold text-white">Top 4 Blockbusters: First Day First Show Interest</h2>
+                    <p class="text-[11px] text-slate-400 mt-0.5">Audience Expectation Approval Index</p>
+                </div>
                 
-                <div id="cinOptionsContainer" class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                    <!-- Dynamic Cinema Options -->
-                </div>
+                <div id="cinOptionsContainer" class="space-y-3"></div>
 
                 <div class="pt-2 border-t border-white/5 flex flex-wrap gap-2 justify-between items-center">
                     <button onclick="sharePoll('Cinema Hype')" class="px-4 py-2 rounded-xl bg-navy-900 border border-white/10 hover:border-amber-500/50 text-xs font-bold text-slate-300 hover:text-white transition flex items-center gap-1.5">
@@ -222,18 +229,19 @@
             </div>
 
             <!-- SECTION 4: TRENDING DEBATE -->
-            <div class="card-3d rounded-3xl p-6 space-y-4">
+            <div id="pubSection-trending" class="pub-section card-3d rounded-3xl p-6 space-y-4 hidden">
                 <div class="flex items-center justify-between border-b border-white/10 pb-3">
-                    <span class="text-xs font-extrabold text-rose-400 flex items-center gap-2">
-                        🚨 BREAKING NATIONAL DEBATE
+                    <span class="text-xs font-extrabold text-rose-400 flex items-center gap-2 bg-rose-500/10 px-3 py-1 rounded-full border border-rose-500/20">
+                        🚨 TOPIC 4 • BREAKING DEBATE
                     </span>
-                    <span id="trdTotalVotesDisplay" class="text-[11px] font-mono text-slate-400">Total: 0</span>
+                    <span id="trdTotalVotesDisplay" class="text-[11px] font-mono text-slate-400">0 votes</span>
                 </div>
-                <h2 id="trdQuestion" class="text-base font-extrabold text-white">Should AI & Automation have stricter national regulations in India?</h2>
+                <div>
+                    <h2 id="trdQuestion" class="text-base font-extrabold text-white">Electoral Reforms & Voting System Transparency</h2>
+                    <p class="text-[11px] text-slate-400 mt-0.5">What is your opinion on EVM & VVPAT counting process?</p>
+                </div>
                 
-                <div id="trdOptionsContainer" class="grid grid-cols-2 gap-4">
-                    <!-- Dynamic Trending Options -->
-                </div>
+                <div id="trdOptionsContainer" class="space-y-3"></div>
 
                 <div class="pt-2 border-t border-white/5 flex flex-wrap gap-2 justify-between items-center">
                     <button onclick="sharePoll('Trending Debate')" class="px-4 py-2 rounded-xl bg-navy-900 border border-white/10 hover:border-rose-500/50 text-xs font-bold text-slate-300 hover:text-white transition flex items-center gap-1.5">
@@ -251,7 +259,7 @@
 
         </div>
 
-        <!-- ================= ADMIN CONSOLE (ACCESSIBLE ONLY VIA #admin HASHTAG) ================= -->
+        <!-- ================= ADMIN CONSOLE (ACCESSIBLE VIA #admin) ================= -->
         <div id="viewAdminConsole" class="hidden space-y-6">
 
             <!-- AUTH LOCK SCREEN -->
@@ -260,7 +268,7 @@
                     🔐
                 </div>
                 <h2 class="text-lg font-black text-white">Master Admin Security Gate</h2>
-                <p class="text-xs text-slate-400">Enter your passcode to unlock real-time control panel.</p>
+                <p class="text-xs text-slate-400">Enter secure passcode to modify poll data, questions, flags, photos & colors.</p>
                 
                 <div class="space-y-3 pt-2">
                     <input type="password" id="adminPassInput" placeholder="Enter Secure Passcode" class="w-full bg-navy-950 border border-white/10 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-saffron-500 text-center font-mono">
@@ -270,12 +278,71 @@
                 </div>
             </div>
 
-            <!-- UNLOCKED FULL ADMIN PANEL -->
+            <!-- UNLOCKED FULL ADMIN PANEL (Editable: Question, Options, Flag, Photo, Bg Color) -->
             <div id="adminUnlockedPanel" class="hidden space-y-6">
-                <div class="card-3d rounded-3xl p-6 text-center space-y-2">
-                    <span class="text-xs font-bold text-emerald-400">✅ Master Admin Session Active</span>
-                    <h3 class="text-sm font-black text-white">Live Data Synchronization Online</h3>
-                    <p class="text-[11px] text-slate-400">Any changes made here sync instantly to the public view.</p>
+                <div class="card-3d rounded-3xl p-6 space-y-4">
+                    <div class="flex items-center justify-between border-b border-white/10 pb-3">
+                        <h3 class="text-sm font-extrabold text-saffron-400">🛠️ Master Admin Full Configurator</h3>
+                        <button onclick="saveAdminChanges()" class="px-4 py-2 rounded-xl bg-emerald-500 text-navy-950 font-black text-xs">Save & Publish Live</button>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-300 mb-1">Global Background Color:</label>
+                            <input type="text" id="adminBgColorInput" value="#070B14" class="w-full bg-navy-950 border border-white/10 rounded-xl px-4 py-2 text-xs text-white font-mono">
+                        </div>
+
+                        <!-- Politics Config -->
+                        <div class="bg-navy-950 p-4 rounded-2xl border border-white/5 space-y-3">
+                            <h4 class="text-xs font-extrabold text-saffron-400">🏛️ Politics Section</h4>
+                            <div>
+                                <label class="text-[10px] text-slate-400">Question:</label>
+                                <input type="text" id="adminPolQ" class="w-full bg-navy-900 border border-white/10 rounded-lg p-2 text-xs text-white mt-1">
+                            </div>
+                            <div id="adminPolOptsList" class="space-y-2"></div>
+                        </div>
+
+                        <!-- Sports Config -->
+                        <div class="bg-navy-950 p-4 rounded-2xl border border-white/5 space-y-3">
+                            <h4 class="text-xs font-extrabold text-sky-400">🏏 Sports Section</h4>
+                            <div>
+                                <label class="text-[10px] text-slate-400">Question:</label>
+                                <input type="text" id="adminSpoQ" class="w-full bg-navy-900 border border-white/10 rounded-lg p-2 text-xs text-white mt-1">
+                            </div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="text-[10px] text-slate-400">Team 1 Name & Flag:</label>
+                                    <input type="text" id="adminSpoT1Name" class="w-full bg-navy-900 border border-white/10 rounded-lg p-1.5 text-xs text-white mt-1">
+                                    <input type="text" id="adminSpoT1Flag" class="w-full bg-navy-900 border border-white/10 rounded-lg p-1.5 text-xs text-white mt-1" placeholder="Flag Emoji">
+                                </div>
+                                <div>
+                                    <label class="text-[10px] text-slate-400">Team 2 Name & Flag:</label>
+                                    <input type="text" id="adminSpoT2Name" class="w-full bg-navy-900 border border-white/10 rounded-lg p-1.5 text-xs text-white mt-1">
+                                    <input type="text" id="adminSpoT2Flag" class="w-full bg-navy-900 border border-white/10 rounded-lg p-1.5 text-xs text-white mt-1" placeholder="Flag Emoji">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Cinema Config -->
+                        <div class="bg-navy-950 p-4 rounded-2xl border border-white/5 space-y-3">
+                            <h4 class="text-xs font-extrabold text-amber-400">🎬 Cinema Section</h4>
+                            <div>
+                                <label class="text-[10px] text-slate-400">Question:</label>
+                                <input type="text" id="adminCinQ" class="w-full bg-navy-900 border border-white/10 rounded-lg p-2 text-xs text-white mt-1">
+                            </div>
+                            <div id="adminCinOptsList" class="space-y-2"></div>
+                        </div>
+
+                        <!-- Trending Config -->
+                        <div class="bg-navy-950 p-4 rounded-2xl border border-white/5 space-y-3">
+                            <h4 class="text-xs font-extrabold text-rose-400">🚨 Trending Section</h4>
+                            <div>
+                                <label class="text-[10px] text-slate-400">Question:</label>
+                                <input type="text" id="adminTrdQ" class="w-full bg-navy-900 border border-white/10 rounded-lg p-2 text-xs text-white mt-1">
+                            </div>
+                            <div id="adminTrdOptsList" class="space-y-2"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -290,56 +357,48 @@
 
     <!-- LOGIC SCRIPT -->
     <script>
-        // CORE POLL DATA MODEL
-        let pollData = {
+        let pollData = JSON.parse(localStorage.getItem('janmat_custom_data')) || {
+            bgColor: '#070B14',
             politics: {
-                question: "Who is your choice for PM 2029?",
+                question: "Who is your choice for India's Next Prime Minister (2029)?",
                 options: [
-                    { id: 'pol_1', name: "Narendra Modi", votes: 4520 },
-                    { id: 'pol_2', name: "Rahul Gandhi", votes: 2180 },
-                    { id: 'pol_3', name: "Arvind Kejriwal", votes: 890 },
-                    { id: 'pol_4', name: "Yogi Adityanath", votes: 3120 }
+                    { id: 'pol_1', name: "Narendra Modi", subtitle: "BJP / NDA", photo: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150", votes: 8520 },
+                    { id: 'pol_2', name: "Rahul Gandhi", subtitle: "INC / INDIA", photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150", votes: 4890 },
+                    { id: 'pol_3', name: "Yogi Adityanath", subtitle: "BJP / UP", photo: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150", votes: 2310 }
                 ]
             },
             sports: {
                 question: "Who will win today's T20 Clash?",
-                team1: { name: "India", flag: "🇮🇳", votes: 8900 },
-                team2: { name: "Australia", flag: "🇦🇺", votes: 3400 }
+                team1: { name: "INDIA", flag: "🇮🇳", votes: 105080 },
+                team2: { name: "AUSTRALIA", flag: "🇦🇺", votes: 36920 }
             },
             cinema: {
-                question: "Which upcoming movie are you booking First Day First Show?",
+                question: "Top 4 Blockbusters: First Day First Show Interest",
                 movies: [
-                    { id: 'cin_1', title: "War 2", votes: 3200 },
-                    { id: 'cin_2', title: "Kalki 2", votes: 4100 },
-                    { id: 'cin_3', title: "Pushpa 3", votes: 2900 },
-                    { id: 'cin_4', title: "Avatar 3", votes: 1500 }
+                    { id: 'cin_1', title: "Ramayana: Part 1", sub: "Ranbir Kapoor & Yash", date: "Diwali 2026", photo: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=150", votes: 4500 },
+                    { id: 'cin_2', title: "War 2", sub: "Hrithik Roshan & Jr. NTR", date: "Independence Day", photo: "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=150", votes: 2700 }
                 ]
             },
             trending: {
-                question: "Should AI & Automation have stricter national regulations in India?",
+                question: "What is your opinion on EVM & VVPAT counting process?",
                 options: [
-                    { id: 'trd_yes', label: "YES, STRICT LAWS", votes: 5400 },
-                    { id: 'trd_no', label: "NO, ALLOW INNOVATION", votes: 2100 }
+                    { id: 'trd_1', label: "EVM & VVPAT system is 100% secure", votes: 4700 },
+                    { id: 'trd_2', label: "100% VVPAT slip matching required", votes: 3900 },
+                    { id: 'trd_3', label: "Return to paper ballot voting", votes: 1400 }
                 ]
             }
         };
 
-        // INITIALIZE APP
         function initApp() {
-            // Check Hash for Hidden Admin Mode
             if (window.location.hash === '#admin') {
                 document.getElementById('viewPublicPortal').classList.add('hidden');
                 document.getElementById('viewAdminConsole').classList.remove('hidden');
             }
-
-            // Start Sports Timer
+            document.body.style.backgroundColor = pollData.bgColor || '#070B14';
             startSportsTimer();
-
-            // Render Public Portal Data
             renderPublicPortal();
         }
 
-        // TIMER LOGIC
         let secondsLeft = 9912;
         function startSportsTimer() {
             setInterval(() => {
@@ -347,147 +406,184 @@
                 let h = Math.floor(secondsLeft / 3600);
                 let m = Math.floor((secondsLeft % 3600) / 60);
                 let s = secondsLeft % 60;
-                document.getElementById('sportsTimerDisplay').innerText = 
-                    `⏱️ ${String(h).padStart(2, '0')}h ${String(m).padStart(2, '0')}m ${String(s).padStart(2, '0')}s`;
+                let tEl = document.getElementById('sportsTimerDisplay');
+                if (tEl) tEl.innerText = `⏱️ ${String(h).padStart(2, '0')}h ${String(m).padStart(2, '0')}m ${String(s).padStart(2, '0')}s`;
             }, 1000);
         }
 
-        // RENDER PUBLIC PORTAL
+        function switchPublicSection(sec) {
+            document.querySelectorAll('.pub-section').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.pub-tab-btn').forEach(el => {
+                el.classList.remove('bg-saffron-500', 'text-navy-950', 'shadow-md');
+                el.classList.add('text-slate-400');
+            });
+            document.getElementById('pubSection-' + sec).classList.remove('hidden');
+            let btn = document.getElementById('pubTabBtn-' + sec);
+            btn.classList.add('bg-saffron-500', 'text-navy-950', 'shadow-md');
+            btn.classList.remove('text-slate-400');
+        }
+
         function renderPublicPortal() {
             let grandTotal = 0;
 
-            // 1. POLITICS
+            // Politics Render
             let polTotal = pollData.politics.options.reduce((a, b) => a + b.votes, 0);
             grandTotal += polTotal;
-            document.getElementById('polTotalVotesDisplay').innerText = `Total Votes: ${polTotal.toLocaleString()}`;
+            document.getElementById('polTotalVotesDisplay').innerText = polTotal.toLocaleString() + ' votes';
             document.getElementById('polQuestion').innerText = pollData.politics.question;
-
             let polUserVoted = localStorage.getItem('voted_politics');
             let polContainer = document.getElementById('polOptionsContainer');
             polContainer.innerHTML = '';
 
             pollData.politics.options.forEach(opt => {
-                let pct = polTotal > 0 ? ((opt.votes / polTotal) * 100).toFixed(1) : 0;
+                let pct = polTotal > 0 ? ((opt.votes / polTotal) * 100).toFixed(0) : 0;
                 let isThisVoted = polUserVoted === opt.id;
                 let cardClass = 'option-card-3d rounded-2xl p-4 flex items-center justify-between cursor-pointer';
-                if (polUserVoted) {
-                    cardClass += isThisVoted ? ' voted-state' : ' unvoted-state';
-                }
+                if (polUserVoted) cardClass += isThisVoted ? ' voted-state' : ' unvoted-state';
 
                 polContainer.innerHTML += `
                     <div onclick="castVote('politics', '${opt.id}')" class="${cardClass}">
                         <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-xl bg-navy-900 border border-white/10 flex items-center justify-center font-black text-saffron-400 text-xs">
-                                ${isThisVoted ? '✓' : '🗳️'}
-                            </div>
+                            <img src="${opt.photo}" class="w-12 h-12 rounded-xl object-cover border border-white/10" alt="">
                             <div>
                                 <h3 class="text-xs font-extrabold text-white">${opt.name}</h3>
-                                <p class="text-[10px] text-slate-400 font-mono">${opt.votes.toLocaleString()} votes</p>
+                                <p class="text-[10px] text-slate-400">${opt.subtitle}</p>
                             </div>
                         </div>
-                        <div class="text-right">
-                            <span class="text-sm font-black ${isThisVoted ? 'text-emerald-300' : 'text-saffron-400'} font-mono">${pct}%</span>
+                        <div class="flex items-center gap-3">
+                            <span class="text-base font-black text-saffron-400 font-mono">${pct}%</span>
+                            <div class="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-saffron-500 text-navy-950 font-black text-xs shadow-md">
+                                ${isThisVoted ? '✓ VOTED' : 'VOTE NOW'}
+                            </div>
                         </div>
                     </div>
                 `;
             });
 
-            // 2. SPORTS
+            // Sports Render
             let spoTotal = pollData.sports.team1.votes + pollData.sports.team2.votes;
             grandTotal += spoTotal;
-            document.getElementById('spoTotalVotesDisplay').innerText = `Total: ${spoTotal.toLocaleString()}`;
+            document.getElementById('spoTotalVotesDisplay').innerText = spoTotal.toLocaleString() + ' votes';
             document.getElementById('spoQuestion').innerText = pollData.sports.question;
-
             let spoUserVoted = localStorage.getItem('voted_sports');
             let spoContainer = document.getElementById('spoOptionsContainer');
             spoContainer.innerHTML = '';
 
-            [ { id: 'team1', ...pollData.sports.team1 }, { id: 'team2', ...pollData.sports.team2 } ].forEach(team => {
-                let pct = spoTotal > 0 ? ((team.votes / spoTotal) * 100).toFixed(1) : 0;
-                let isThisVoted = spoUserVoted === team.id;
-                let cardClass = 'option-card-3d rounded-2xl p-4 text-center cursor-pointer space-y-2';
-                if (spoUserVoted) {
-                    cardClass += isThisVoted ? ' voted-state' : ' unvoted-state';
-                }
+            let t1Pct = spoTotal > 0 ? ((pollData.sports.team1.votes / spoTotal) * 100).toFixed(0) : 0;
+            let t2Pct = spoTotal > 0 ? ((pollData.sports.team2.votes / spoTotal) * 100).toFixed(0) : 0;
 
-                spoContainer.innerHTML += `
-                    <div onclick="castVote('sports', '${team.id}')" class="${cardClass}">
-                        <div class="text-2xl">${team.flag}</div>
-                        <h3 class="text-xs font-extrabold text-white">${team.name}</h3>
-                        <div class="text-base font-black text-sky-400 font-mono">${pct}%</div>
-                        <div class="text-[10px] text-slate-400 font-mono">${team.votes.toLocaleString()} votes</div>
+            spoContainer.innerHTML = `
+                <div class="card-3d rounded-2xl p-4 flex items-center justify-around text-center mb-4 border border-white/10">
+                    <div>
+                        <div class="text-3xl">${pollData.sports.team1.flag}</div>
+                        <h3 class="text-xs font-bold text-white mt-1">${pollData.sports.team1.name}</h3>
+                        <div class="text-lg font-black text-cyanNeon font-mono">${t1Pct}%</div>
                     </div>
-                `;
-            });
+                    <div class="text-sm font-black italic text-cyanNeon">VS</div>
+                    <div>
+                        <div class="text-3xl">${pollData.sports.team2.flag}</div>
+                        <h3 class="text-xs font-bold text-white mt-1">${pollData.sports.team2.name}</h3>
+                        <div class="text-lg font-black text-cyanNeon font-mono">${t2Pct}%</div>
+                    </div>
+                </div>
 
-            // 3. CINEMA
+                <div onclick="castVote('sports', 'team1')" class="option-card-3d rounded-2xl p-4 flex items-center justify-between cursor-pointer ${spoUserVoted ? (spoUserVoted === 'team1' ? 'voted-state' : 'unvoted-state') : ''}">
+                    <div>
+                        <h3 class="text-xs font-extrabold text-white">${pollData.sports.team1.flag} ${pollData.sports.team1.name}</h3>
+                        <p class="text-[10px] text-slate-400 font-mono">${pollData.sports.team1.votes.toLocaleString()} Votes</p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-base font-black text-cyanNeon font-mono">${t1Pct}%</span>
+                        <div class="px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-400 to-sky-500 text-navy-950 font-black text-xs">VOTE NOW</div>
+                    </div>
+                </div>
+
+                <div onclick="castVote('sports', 'team2')" class="option-card-3d rounded-2xl p-4 flex items-center justify-between cursor-pointer ${spoUserVoted ? (spoUserVoted === 'team2' ? 'voted-state' : 'unvoted-state') : ''}">
+                    <div>
+                        <h3 class="text-xs font-extrabold text-white">${pollData.sports.team2.flag} ${pollData.sports.team2.name}</h3>
+                        <p class="text-[10px] text-slate-400 font-mono">${pollData.sports.team2.votes.toLocaleString()} Votes</p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-base font-black text-cyanNeon font-mono">${t2Pct}%</span>
+                        <div class="px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-400 to-sky-500 text-navy-950 font-black text-xs">VOTE NOW</div>
+                    </div>
+                </div>
+            `;
+
+            // Cinema Render
             let cinTotal = pollData.cinema.movies.reduce((a, b) => a + b.votes, 0);
             grandTotal += cinTotal;
-            document.getElementById('cinTotalVotesDisplay').innerText = `Total: ${cinTotal.toLocaleString()}`;
+            document.getElementById('cinTotalVotesDisplay').innerText = cinTotal.toLocaleString() + ' votes';
             document.getElementById('cinQuestion').innerText = pollData.cinema.question;
-
             let cinUserVoted = localStorage.getItem('voted_cinema');
             let cinContainer = document.getElementById('cinOptionsContainer');
             cinContainer.innerHTML = '';
 
             pollData.cinema.movies.forEach(mov => {
-                let pct = cinTotal > 0 ? ((mov.votes / cinTotal) * 100).toFixed(1) : 0;
+                let pct = cinTotal > 0 ? ((mov.votes / cinTotal) * 100).toFixed(0) : 0;
                 let isThisVoted = cinUserVoted === mov.id;
-                let cardClass = 'option-card-3d rounded-2xl p-3 text-center cursor-pointer space-y-1.5';
-                if (cinUserVoted) {
-                    cardClass += isThisVoted ? ' voted-state' : ' unvoted-state';
-                }
+                let cardClass = 'option-card-3d rounded-2xl p-4 flex items-center justify-between cursor-pointer';
+                if (cinUserVoted) cardClass += isThisVoted ? ' voted-state' : ' unvoted-state';
 
                 cinContainer.innerHTML += `
                     <div onclick="castVote('cinema', '${mov.id}')" class="${cardClass}">
-                        <div class="text-xl">🎬</div>
-                        <h3 class="text-xs font-black text-white">${mov.title}</h3>
-                        <div class="text-xs font-black text-amber-400 font-mono">${pct}%</div>
-                        <div class="text-[9px] text-slate-400 font-mono">${mov.votes.toLocaleString()} votes</div>
+                        <div class="flex items-center gap-3">
+                            <img src="${mov.photo}" class="w-12 h-12 rounded-xl object-cover border border-white/10" alt="">
+                            <div>
+                                <h3 class="text-xs font-extrabold text-white">${mov.title}</h3>
+                                <p class="text-[10px] text-slate-400">${mov.sub}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-base font-black text-amber-400 font-mono">${pct}%</span>
+                            <div class="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-saffron-500 text-navy-950 font-black text-xs">
+                                ${isThisVoted ? '✓ VOTED' : 'VOTE NOW'}
+                            </div>
+                        </div>
                     </div>
                 `;
             });
 
-            // 4. TRENDING
+            // Trending Render
             let trdTotal = pollData.trending.options.reduce((a, b) => a + b.votes, 0);
             grandTotal += trdTotal;
-            document.getElementById('trdTotalVotesDisplay').innerText = `Total: ${trdTotal.toLocaleString()}`;
+            document.getElementById('trdTotalVotesDisplay').innerText = trdTotal.toLocaleString() + ' votes';
             document.getElementById('trdQuestion').innerText = pollData.trending.question;
-
             let trdUserVoted = localStorage.getItem('voted_trending');
             let trdContainer = document.getElementById('trdOptionsContainer');
             trdContainer.innerHTML = '';
 
             pollData.trending.options.forEach(opt => {
-                let pct = trdTotal > 0 ? ((opt.votes / trdTotal) * 100).toFixed(1) : 0;
+                let pct = trdTotal > 0 ? ((opt.votes / trdTotal) * 100).toFixed(0) : 0;
                 let isThisVoted = trdUserVoted === opt.id;
-                let cardClass = 'option-card-3d rounded-2xl p-4 text-center cursor-pointer space-y-2';
-                if (trdUserVoted) {
-                    cardClass += isThisVoted ? ' voted-state' : ' unvoted-state';
-                }
+                let cardClass = 'option-card-3d rounded-2xl p-4 flex items-center justify-between cursor-pointer';
+                if (trdUserVoted) cardClass += isThisVoted ? ' voted-state' : ' unvoted-state';
 
                 trdContainer.innerHTML += `
                     <div onclick="castVote('trending', '${opt.id}')" class="${cardClass}">
-                        <h3 class="text-xs font-black text-white">${opt.label}</h3>
-                        <div class="text-base font-black text-rose-400 font-mono">${pct}%</div>
-                        <div class="text-[10px] text-slate-400 font-mono">${opt.votes.toLocaleString()} votes</div>
+                        <div>
+                            <h3 class="text-xs font-extrabold text-white">${opt.label}</h3>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-base font-black text-rose-400 font-mono">${pct}%</span>
+                            <div class="px-4 py-2 rounded-xl bg-gradient-to-r from-rose-500 to-saffron-500 text-white font-black text-xs">
+                                ${isThisVoted ? '✓ VOTED' : 'VOTE NOW'}
+                            </div>
+                        </div>
                     </div>
                 `;
             });
 
-            // Update Header Grand Total
             document.getElementById('totalPlatformVotesHeader').innerText = grandTotal.toLocaleString();
         }
 
-        // CAST VOTE WITH LOCKING LOGIC
         function castVote(section, optionId) {
             let storageKey = 'voted_' + section;
             if (localStorage.getItem(storageKey)) {
-                showToast("⚠️ You have already voted in this section! Vote is locked.");
+                showToast("⚠️ You have already voted in this section!");
                 return;
             }
 
-            // Update local memory data
             if (section === 'politics') {
                 let item = pollData.politics.options.find(o => o.id === optionId);
                 if (item) item.votes++;
@@ -502,29 +598,26 @@
                 if (item) item.votes++;
             }
 
-            // Lock vote for this user
             localStorage.setItem(storageKey, optionId);
-            showToast("🎉 Vote registered successfully! Locked.");
+            localStorage.setItem('janmat_custom_data', JSON.stringify(pollData));
+            showToast("🎉 Vote registered & locked successfully!");
             renderPublicPortal();
         }
 
-        // SHARE LINK FUNCTION
         function sharePoll(title) {
             navigator.clipboard.writeText(window.location.href);
-            showToast(`🔗 ${title} share link copied to clipboard!`);
+            showToast(`🔗 ${title} share link copied!`);
         }
 
-        // TOGGLE COMMENT BOX
         function toggleCommentBox(sec) {
             let box = document.getElementById('commentBox-' + sec);
             box.classList.toggle('hidden');
         }
 
-        // SUBMIT OPINION
         function submitOpinion(sec) {
             let input = document.getElementById('commentInput-' + sec);
             if (input.value.trim() === '') {
-                showToast("⚠️ Please write an opinion before posting.");
+                showToast("⚠️ Please write an opinion.");
                 return;
             }
             showToast("💬 Opinion posted successfully!");
@@ -532,7 +625,6 @@
             toggleCommentBox(sec);
         }
 
-        // SHOW TOAST
         function showToast(msg) {
             let toast = document.getElementById('toast');
             document.getElementById('toastMsg').innerText = msg;
@@ -542,16 +634,64 @@
             }, 2500);
         }
 
-        // ADMIN PASS VERIFICATION
         function verifyAdminPass() {
             let pass = document.getElementById('adminPassInput').value;
-            if (pass === 'admin123' || pass === 'Admin@2026') {
+            if (pass === 'Gfors#102028@354') {
                 document.getElementById('adminAuthGate').classList.add('hidden');
                 document.getElementById('adminUnlockedPanel').classList.remove('hidden');
+                loadAdminForm();
                 showToast("🔓 Admin panel unlocked successfully!");
             } else {
                 showToast("❌ Incorrect Passcode!");
             }
+        }
+
+        function loadAdminForm() {
+            document.getElementById('adminBgColorInput').value = pollData.bgColor || '#070B14';
+            document.getElementById('adminPolQ').value = pollData.politics.question;
+            document.getElementById('adminSpoQ').value = pollData.sports.question;
+            document.getElementById('adminSpoT1Name').value = pollData.sports.team1.name;
+            document.getElementById('adminSpoT1Flag').value = pollData.sports.team1.flag;
+            document.getElementById('adminSpoT2Name').value = pollData.sports.team2.name;
+            document.getElementById('adminSpoT2Flag').value = pollData.sports.team2.flag;
+            document.getElementById('adminCinQ').value = pollData.cinema.question;
+            document.getElementById('adminTrdQ').value = pollData.trending.question;
+
+            // Render dynamic options in admin
+            let polOptsHtml = '';
+            pollData.politics.options.forEach((opt, idx) => {
+                polOptsHtml += `<div class="bg-navy-900 p-2 rounded-lg space-y-1">
+                    <input type="text" id="adm_pol_name_${idx}" value="${opt.name}" class="w-full bg-navy-950 border border-white/10 rounded p-1 text-xs text-white" placeholder="Name">
+                    <input type="text" id="adm_pol_photo_${idx}" value="${opt.photo}" class="w-full bg-navy-950 border border-white/10 rounded p-1 text-[10px] text-slate-400 font-mono" placeholder="Photo URL">
+                </div>`;
+            });
+            document.getElementById('adminPolOptsList').innerHTML = polOptsHtml;
+        }
+
+        function saveAdminChanges() {
+            pollData.bgColor = document.getElementById('adminBgColorInput').value;
+            pollData.politics.question = document.getElementById('adminPolQ').value;
+            pollData.sports.question = document.getElementById('adminSpoQ').value;
+            pollData.sports.team1.name = document.getElementById('adminSpoT1Name').value;
+            pollData.sports.team1.flag = document.getElementById('adminSpoT1Flag').value;
+            pollData.sports.team2.name = document.getElementById('adminSpoT2Name').value;
+            pollData.sports.team2.flag = document.getElementById('adminSpoT2Flag').value;
+            pollData.cinema.question = document.getElementById('adminCinQ').value;
+            pollData.trending.question = document.getElementById('adminTrdQ').value;
+
+            pollData.politics.options.forEach((opt, idx) => {
+                let nameEl = document.getElementById(`adm_pol_name_${idx}`);
+                let photoEl = document.getElementById(`adm_pol_photo_${idx}`);
+                if (nameEl) opt.name = nameEl.value;
+                if (photoEl) opt.photo = photoEl.value;
+            });
+
+            localStorage.setItem('janmat_custom_data', JSON.stringify(pollData));
+            showToast("✅ All changes saved & published live!");
+            setTimeout(() => {
+                window.location.hash = '';
+                window.location.reload();
+            }, 1000);
         }
     </script>
 </body>
