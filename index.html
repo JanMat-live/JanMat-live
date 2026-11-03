@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>JanMat Live — Master Admin Dashboard & Live Demo</title>
+    <!-- Inter Font & Tailwind CSS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: { 950: '#070B14', 900: '#0B1120', 800: '#121A2B', 700: '#1C273D', 600: '#2A3958' },
+                        saffron: { 400: '#FFAA4D', 500: '#FF9933', 600: '#E67E17' },
+                        emerald: { 400: '#34D399', 500: '#10B981', 600: '#059669' },
+                        crimson: { 400: '#F87171', 500: '#EF4444', 600: '#DC2626' },
+                        cyanNeon: '#00F0FF'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #070B14;
+            color: #F8FAFC;
+            font-family: 'Inter', sans-serif;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(255, 153, 51, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 85% 85%, rgba(16, 185, 129, 0.10) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(0, 240, 255, 0.05) 0%, transparent 60%);
+            background-attachment: fixed;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .card-3d {
+            background: linear-gradient(145deg, rgba(18, 26, 43, 0.95), rgba(11, 17, 32, 0.98));
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7), inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(16px);
+        }
+
+        .option-card-3d {
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            background: linear-gradient(135deg, rgba(28, 39, 61, 0.8), rgba(18, 26, 43, 0.9));
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        }
+
+        /* 3D Elevated Green Voted State */
+        .option-card-3d.voted-state {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.35), rgba(6, 78, 59, 0.6)) !important;
+            border: 2px solid #10B981 !important;
+            box-shadow: 0 12px 30px rgba(16, 185, 129, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.3) !important;
+            transform: translateY(-2px) scale(1.01);
+            opacity: 1 !important;
+        }
+
+        /* 3D Crimson Red Unvoted State */
+        .option-card-3d.unvoted-state {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(127, 29, 29, 0.3)) !important;
+            border: 1px solid rgba(239, 68, 68, 0.3) !important;
+            opacity: 0.65 !important;
+            transform: scale(0.98);
+        }
+
+        .tricolor-glow {
+            background: linear-gradient(90deg, #FF9933 0%, #FFFFFF 50%, #10B981 100%);
+            box-shadow: 0 0 12px rgba(255, 153, 51, 0.5);
+        }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #070B14; }
+        ::-webkit-scrollbar-thumb { background: #1C273D; border-radius: 10px; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <!-- TOP HEADER WITH VIEW TOGGLER -->
+    <header class="sticky top-0 z-40 w-full bg-navy-950/90 backdrop-blur-xl border-b border-white/10">
+        <div class="tricolor-glow h-1 w-full"></div>
+        <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-saffron-500 via-white to-emerald-500 p-0.5 shadow-lg shadow-saffron-500/20">
+                    <div class="w-full h-full bg-navy-950 rounded-[10px] flex items-center justify-center font-extrabold text-saffron-400">
+                        JM
+                    </div>
+                </div>
+                <div>
+                    <h1 class="text-lg font-black tracking-tight text-white flex items-center gap-1.5">
+                        JanMat<span class="text-saffron-500">Live</span>
+                        <span id="badgeViewMode" class="text-[10px] font-bold px-2 py-0.5 rounded-md bg-saffron-500/20 text-saffron-400 border border-saffron-500/30">ADMIN MODE</span>
+                    </h1>
+                    <p class="text-[10px] text-slate-400 font-medium">Pan-India Real-Time Polling Dashboard</p>
+                </div>
+            </div>
+
+            <!-- VIEW MODE TOGGLER BUTTONS -->
+            <div class="flex items-center bg-navy-900 p-1 rounded-xl border border-white/10">
+                <button onclick="toggleMainView('admin')" id="btnViewAdmin" class="px-3 py-1.5 rounded-lg text-xs font-black transition-all bg-saffron-500 text-navy-950 shadow-md">
+                    🔐 Admin Console
+                </button>
+                <button onclick="toggleMainView('public')" id="btnViewPublic" class="px-3 py-1.5 rounded-lg text-xs font-black transition-all text-slate-400 hover:text-white">
+                    📱 Public Portal Preview
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toast" class="fixed top-20 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 opacity-0 pointer-events-none -translate-y-4">
+        <div class="bg-navy-800 border border-emerald-500/50 text-emerald-300 px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-2 text-xs font-extrabold">
+            <svg class="w-4 h-4 text-emerald-400 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+            <span id="toastMsg">Changes published to public portal!</span>
+        </div>
+    </div>
+
+    <!-- MAIN VIEW CONTAINER -->
+    <main class="max-w-4xl w-full mx-auto px-4 py-6 flex-1">
+
+        <!-- ================= VIEW 1: ADMIN DASHBOARD CONSOLE ================= -->
+        <div id="viewAdminConsole" class="space-y-6">
+
+            <!-- AUTH LOCK SCREEN (Shown if not logged in) -->
+            <div id="adminAuthGate" class="card-3d rounded-3xl p-8 max-w-md mx-auto text-center space-y-4">
+                <div class="w-16 h-16 bg-saffron-500/10 rounded-2xl border border-saffron-500/30 flex items-center justify-center text-3xl mx-auto mb-2">
+                    🔐
+                </div>
+                <h2 class="text-lg font-black text-white">Master Admin Security Gate</h2>
+                <p class="text-xs text-slate-400">Enter your secret passcode to access live content controls, change poll items, update team flags, and modify movie posters.</p>
+                
+                <div class="space-y-3 pt-2">
+                    <input type="password" id="adminPassInput" placeholder="Passcode (Default: admin123)" class="w-full bg-navy-950 border border-white/10 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-saffron-500 text-center font-mono">
+                    <button onclick="verifyAdminPass()" class="w-full bg-saffron-500 hover:bg-saffron-400 text-navy-950 font-black py-3 rounded-xl text-xs transition shadow-lg shadow-saffron-500/20">
+                        Unlock Admin Control Panel
+                    </button>
+                    <p class="text-[11px] text-slate-500">Hint: Enter <code class="text-saffron-400 font-mono">admin123</code></p>
+                </div>
+            </div>
+
+            <!-- UNLOCKED FULL ADMIN PANEL (Hidden by default) -->
+            <div id="adminUnlockedPanel" class="hidden space-y-6">
+                
+                <!-- TOP ADMIN NAVIGATION TABS -->
+                <div class="flex overflow-x-auto gap-2 bg-navy-900 p-1.5 rounded-2xl border border-white/10 scrollbar-none">
+                    <button onclick="switchAdminTab('politics')" id="adminTabBtn-politics" class="admin-tab-btn flex-1 min-w-[100px] py-2.5 rounded-xl text-xs font-black transition-all bg-saffron-500 text-navy-950 shadow-md">
+                        🏛️ Politics 2029
+                    </button>
+                    <button onclick="switchAdminTab('sports')" id="adminTabBtn-sports" class="admin-tab-btn flex-1 min-w-[100px] py-2.5 rounded-xl text-xs font-black transition-all text-slate-400 hover:text-white">
+                        🏏 Sports Match
+                    </button>
+                    <button onclick="switchAdminTab('cinema')" id="adminTabBtn-cinema" class="admin-tab-btn flex-1 min-w-[100px] py-2.5 rounded-xl text-xs font-black transition-all text-slate-400 hover:text-white">
+                        🎬 Cinema Hype
+                    </button>
+                    <button onclick="switchAdminTab('trending')" id="adminTabBtn-trending" class="admin-tab-btn flex-1 min-w-[100px] py-2.5 rounded-xl text-xs font-black transition-all text-slate-400 hover:text-white">
+                        🚨 Trending
+                    </button>
+                </div>
+
+                <!-- ================= TAB 1: POLITICS EDITOR ================= -->
+                <div id="adminTabContent-politics" class="admin-tab-content card-3d rounded-3xl p-6 space-y-5">
+                    <div class="flex items-center justify-between border-b border-white/10 pb-4">
+                        <h3 class="text-sm font-extrabold text-saffron-400 flex items-center gap-2">
+                            🏛️ Politics Section Configurator
+                        </h3>
+                        <span class="text-[10px] text-slate-400 font-mono bg-navy-950 px-2.5 py-1 rounded-full border border-white/5">5 Candidates Registered</span>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 mb-1">Main Poll Question:</label>
+                        <input type="text" id="editPolQuestion" class="w-full bg-navy-950 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-saffron-500 font-semibold">
+                    </div>
+
+                    <div class="space-y-4">
+                        <h4 class="text-xs font-extrabold text-slate-400 uppercase tracking-wider">Candidate Profiles & Images:</h4>
+                        
+                        <div id="politicsCandidatesContainer" class="space-y-3">
+                            <!-- Injected dynamically via JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ================= TAB 2: SPORTS EDITOR ================= -->
+                <div id="adminTabContent-sports" class="admin-tab-content card-3d rounded-3xl p-6 space-y-5 hidden">
+                    <div class="flex items-center justify-between border-b border-white/10 pb-4">
+                        <h3 class="text-sm font-extrabold text-sky-400 flex items-center gap-2">
+                            🏏 Sports Match Odds & Captain Face-off Configurator
+                        </h3>
+                        <span class="text-[10px] text-amber-400 font-mono bg-amber-500/10 px-2.5 py-1 rounded-full border border-amber-500/20">Live Countdown Active</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="md:col-span-2">
+                            <label class="block text-xs font-bold text-slate-300 mb-1">Match Headline Question:</label>
+                            <input type="text" id="editSpoQuestion" class="w-full bg-navy-950 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-sky-500 font-semibold">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-300 mb-1">Countdown Timer:</label>
+                            <input type="text" id="editSpoTimer" class="w-full bg-navy-950 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-amber-400 font-mono focus:outline-none focus:border-amber-500">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                        <!-- Team 1 Editor -->
+                        <div class="bg-navy-950 p-4 rounded-2xl border border-white/5 space-y-3">
+                            <h4 class="text-xs font-bold text-sky-400 flex items-center gap-1.5">🇮🇳 Team 1 (Left Side)</h4>
+                            <div>
+                                <label class="text-[10px] text-slate-400">Team Name & Flag Emoji:</label>
+                                <div class="flex gap-2 mt-1">
+                                    <input type="text" id="editSpoT1Name" class="flex-1 bg-navy-900 border border-white/10 rounded-lg px-2.5 py-1.5 text-xs text-white">
+                                    <input type="text" id="editSpoT1Flag" class="w-14 bg-navy-900 border border-white/10 rounded-lg px-2.5 py-1.5 text-xs text-white text-center">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="text-[10px] text-slate-400">Captain Name & Photo URL:</label>
+                                <input type="text" id="editSpoT1Captain" class="w-full bg-navy-900 border border-white/10 rounded-lg px-2.5 py-1.5 text-xs text-white mb-1" placeholder="Captain Name">
+                                <input type="text" id="editSpoT1Photo" class="w-full bg-navy-900 border border-white/10 rounded-lg px-2.5 py-1.5 text-[10px] text-slate-400 font-mono" placeholder="Captain Photo URL">
+                            </div>
+                            <div class="flex gap-2">
+                                <div class="flex-1">
+                                    <label class="text-[10px] text-slate-400">Vote Count:</label>
+                                    <input type="number" id="editSpoT1Votes" class="w-full bg-navy-900 border border-white/10 rounded-lg px-2 py-1 text-xs text-white">
+                                </div>
+                                <div class="flex-1">
+                                    <label class="text-[10px] text-slate-400">Percentage (%):</label>
+                                    <input type="number" id="editSpoT1Percent" class="w-full bg-navy-900 border border-white/10 rounded-lg px-2 py-1 text-xs text-cyanNeon font-bold">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Team 2 Editor -->
+                        <div class="bg-navy-950 p-4 rounded-2xl border border-white/5 space-y-3">
+                            <h4 class="text-xs font-bold text-sky-400 flex items-center gap-1.5">🇦🇺 Team 2 (Right Side)</h4>
+                            <div>
+                                <label class="text-[10px] text-slate-400">Team Name & Flag Emoji:</label>
+                                <div class="flex gap-2 mt-1">
+                                    <input type="text" id="editSpoT2Name" class="flex-1 bg-navy-900 border border-white/10 rounded-lg px-2.5 py-1.5 text-xs text-white">
+                                    <input type="text" id="editSpoT2Flag" class="w-14 bg-navy-900 border border-white/10 rounded-lg px-2.5 py-1.5 text-xs text-white text-center">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="text-[10px] text-slate-400">Captain Name & Photo URL:</label>
+                                <input type="text" id="editSpoT2Captain" class="w-full bg-navy-900 border border-white/10 rounded-lg px-2.5 py-1.5 text-xs text-white mb-1" placeholder="Captain Name">
+                                <input type="text" id="editSpoT2Photo" class="w-full bg-navy-900 border border-white/10 rounded-lg px-2.5 py-1.5 text-[10px] text-slate-400 font-mono" placeholder="Captain Photo URL">
+                            </div>
+                            <div class="flex gap-2">
+                                <div class="flex-1">
+                                    <label class="text-[10px] text-slate-400">Vote Count:</label>
+                                    <input type="number" id="editSpoT2Votes" class="w-full bg-navy-900 border border-white/10 rounded-lg px-2 py-1 text-xs text-white">
+                                </div>
+                                <div class="flex-1">
+                                    <label class="text-[10px] text-slate-400">Percentage (%):</label>
+                                    <input type="number" id="editSpoT2Percent" class="w-full bg-navy-900 border border-white/10 rounded-lg px-2 py-1 text-xs text-cyanNeon font-bold">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ================= TAB 3: CINEMA EDITOR ================= -->
+                <div id="adminTabContent-cinema" class="admin-tab-content card-3d rounded-3xl p-6 space-y-5 hidden">
+                    <div class="flex items-center justify-between border-b border-white/10 pb-4">
+                        <h3 class="text-sm font-extrabold text-amber-400 flex items-center gap-2">
+                            🎬 Cinema Movie Poster Stack Configurator
+                        </h3>
+                        <span class="text-[10px] text-slate-400 font-mono bg-navy-950 px-2.5 py-1 rounded-full border border-white/5">4 Movies Stacked</span>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 mb-1">Cinema Section Headline:</label>
+                        <input type="text" id="editCinQuestion" class="w-full bg-navy-950 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500 font-semibold">
+                    </div>
+
+                    <div class="space-y-4">
+                        <h4 class="text-xs font-extrabold text-slate-400 uppercase tracking-wider">Movie Titles, Release Dates & Posters:</h4>
+                        
+                        <div id="cinemaMoviesContainer" class="space-y-3">
+                            <!-- Injected dynamically via JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ================= TAB 4: TRENDING EDITOR ================= -->
+                <div id="adminTabContent-trending" class="admin-tab-content card-3d rounded-3xl p-6 space-y-5 hidden">
+                    <div class="flex items-center justify-between border-b border-white/10 pb-4">
+                        <h3 class="text-sm font-extrabold text-rose-400 flex items-center gap-2">
+                            🚨 Breaking National Debate Configurator
+                        </h3>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 mb-1">Debate Question:</label>
+                        <input type="text" id="editTrdQuestion" class="w-full bg-navy-950 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-rose-500 font-semibold">
+                    </div>
+
+                    <div id="trendingOptionsContainer" class="space-y-3">
+                        <!-- Injected dynamically via JS -->
+                    </div>
+                </div>
+
+                <!-- SAVE & PUBLISH CONTROL BAR -->
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-4 bg-navy-900 border border-emerald-500/30 p-4 rounded-2xl shadow-xl">
+                    <div class="flex items-center gap-3">
+                        <div class="w-3 h-3 rounded-full bg-emerald-400 animate-ping"></div>
+                        <div>
+                            <p class="text-xs font-bold text-white">Ready to deploy changes?</p>
+                            <p class="text-[11px] text-slate-400">Updates will immediately reflect on the live public portal preview.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-2 w-full sm:w-auto">
+                        <button onclick="saveAndPublishChanges()" class="w-full sm:w-auto bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-navy-950 font-black px-6 py-3 rounded-xl text-xs transition-all shadow-lg shadow-emerald-500/25 flex items-center justify-center gap-2">
+                            <span>Save & Publish Live 🚀</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ================= VIEW 2: PUBLIC PORTAL PREVIEW ================= -->
+        <div id="viewPublicPortal" class="hidden space-y-6 max-w-md mx-auto">
+
+            <!-- PUBLIC CATEGORY NAV BAR -->
+            <div class="flex overflow-x-auto gap-2 bg-navy-900 p-1.5 rounded-2xl border border-white/10 scrollbar-none">
+                <button onclick="switchPublicTab('sports')" id="pubTabBtn-sports" class="pub-tab-btn flex-1 py-2 px-3 rounded-xl text-[11px] font-extrabold transition-all bg-saffron-500 text-navy-950 shadow-md whitespace-nowrap">
+                    🏒 Sports Odds
+                </button>
+                <button onclick="switchPublicTab('politics')" id="pubTabBtn-politics" class="pub-tab-btn flex-1 py-2 px-3 rounded-xl text-[11px] font-extrabold transition-all text-slate-400 hover:text-white whitespace-nowrap">
+                    🏛️ Politics 2029
+                </button>
+                <button onclick="switchPublicTab('cinema')" id="pubTabBtn-cinema" class="pub-tab-btn flex-1 py-2 px-3 rounded-xl text-[11px] font-extrabold transition-all text-slate-400 hover:text-white whitespace-nowrap">
+                    🎬 Cinema
+                </button>
+                <button onclick="switchPublicTab('trending')" id="pubTabBtn-trending" class="pub-tab-btn flex-1 py-2 px-3 rounded-xl text-[11px] font-extrabold transition-all text-slate-400 hover:text-white whitespace-nowrap">
+                    🔥 Trending
+                </button>
+            </div>
+
+            <!-- PUBLIC SPORTS SECTION (EXACT AS SCREENSHOT DESIGN) -->
+            <div id="pubSec-sports" class="pub-section card-3d rounded-3xl p-5 relative overflow-hidden">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-[11px] font-extrabold text-cyanNeon bg-cyanNeon/10 border border-cyanNeon/30 px-3 py-1 rounded-full uppercase tracking-wider flex items-center gap-1.5">
+                        🏒 ICC MATCH ODDS
+                    </span>
+                    <span id="pubSpoTimer" class="text-xs font-mono font-bold text-amber-400">Starts in 02:45:10</span>
+                </div>
+
+                <h2 id="pubSpoQ" class="text-lg font-black text-white leading-snug mb-5">Agla India vs Australia Match kaun jeetega?</h2>
+
+                <!-- MATCH CAPTAIN FACE-OFF BOX -->
+                <div class="bg-navy-950/90 border border-white/10 rounded-2xl p-4 mb-5 flex items-center justify-around text-center">
+                    <!-- Team 1 -->
+                    <div class="flex flex-col items-center">
+                        <div class="relative mb-1">
+                            <span id="pubSpoT1Flag" class="text-4xl">🇮🇳</span>
+                            <img id="pubSpoT1Photo" src="" class="w-7 h-7 rounded-full border-2 border-white absolute -bottom-1 -right-1 object-cover shadow-md">
+                        </div>
+                        <span id="pubSpoT1Name" class="font-extrabold text-xs text-white mt-1">INDIA</span>
+                        <span id="pubSpoT1Percent" class="text-sm font-black text-cyanNeon">74.0%</span>
+                    </div>
+
+                    <span class="text-xs font-black text-cyanNeon bg-cyanNeon/10 px-3 py-1 rounded-lg border border-cyanNeon/30">VS</span>
+
+                    <!-- Team 2 -->
+                    <div class="flex flex-col items-center">
+                        <div class="relative mb-1">
+                            <span id="pubSpoT2Flag" class="text-4xl">🇦🇺</span>
+                            <img id="pubSpoT2Photo" src="" class="w-7 h-7 rounded-full border-2 border-white absolute -bottom-1 -right-1 object-cover shadow-md">
+                        </div>
+                        <span id="pubSpoT2Name" class="font-extrabold text-xs text-white mt-1">AUSTRALIA</span>
+                        <span id="pubSpoT2Percent" class="text-sm font-black text-cyanNeon">26.0%</span>
+                    </div>
+                </div>
+
+                <!-- OPTION CARDS -->
+                <div id="pubSpoOptionsContainer" class="space-y-3"></div>
+
+                <!-- FOOTER WITH SHARE BUTTON -->
+                <div class="flex items-center justify-between pt-4 mt-4 border-t border-white/10 text-xs">
+                    <span id="pubSpoTotalVotes" class="text-slate-400 font-semibold">1,42,000 Votes Cast</span>
+                    <button onclick="sharePoll()" class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-3.5 py-1.5 rounded-xl font-bold flex items-center gap-1.5 hover:bg-emerald-500/30 transition">
+                        <span>💬 Share</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- PUBLIC POLITICS SECTION -->
+            <div id="pubSec-politics" class="pub-section card-3d rounded-3xl p-5 hidden">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-[11px] font-black text-saffron-400 bg-saffron-500/10 border border-saffron-500/30 px-3 py-1 rounded-full uppercase tracking-wider">
+                        🏛️ POLITICS • PM RACE 2029
+                    </span>
+                </div>
+
+                <h2 id="pubPolQ" class="text-lg font-black text-white leading-snug mb-5">Who is your choice for Prime Minister in 2029?</h2>
+                <div id="pubPolOptionsContainer" class="space-y-3"></div>
+            </div>
+
+            <!-- PUBLIC CINEMA SECTION -->
+            <div id="pubSec-cinema" class="pub-section card-3d rounded-3xl p-5 hidden">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-[11px] font-black text-amber-400 bg-amber-500/10 border border-amber-500/30 px-3 py-1 rounded-full uppercase tracking-wider">
+                        🎬 CINEMA • FDFS STACK
+                    </span>
+                </div>
+
+                <h2 id="pubCinQ" class="text-lg font-black text-white leading-snug mb-5">Most Anticipated Blockbuster FDFS Interest?</h2>
+                <div id="pubCinOptionsContainer" class="space-y-3"></div>
+            </div>
+
+            <!-- PUBLIC TRENDING SECTION -->
+            <div id="pubSec-trending" class="pub-section card-3d rounded-3xl p-5 hidden">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-[11px] font-black text-rose-400 bg-rose-500/10 border border-rose-500/30 px-3 py-1 rounded-full uppercase tracking-wider">
+                        🚨 BREAKING DEBATE
+                    </span>
+                </div>
+
+                <h2 id="pubTrdQ" class="text-lg font-black text-white leading-snug mb-5">Electoral Reforms & Voting System Transparency</h2>
+                <div id="pubTrdOptionsContainer" class="space-y-3"></div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="w-full bg-navy-950 border-t border-white/10 py-4 text-center text-xs text-slate-400">
+        <p>© 2026 JanMat Live Portal • Powered by 3D Reactive Engine</p>
+    </footer>
+
+    <!-- SCRIPT APPLICATION CONTROLLER -->
+    <script>
+        // MASTER POLL STORE
+        let masterData = {
+            politics: {
+                id: 'pol-2029',
+                question: "Who is your choice for Prime Minister in 2029?",
+                candidates: [
+                    { id: 'modi', name: "Narendra Modi", party: "BJP / NDA", photo: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&auto=format&fit=crop&q=80", flag: "🪷", votes: 105080, percent: 48 },
+                    { id: 'rahul', name: "Rahul Gandhi", party: "INC / INDIA", photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&auto=format&fit=crop&q=80", flag: "✋", votes: 59100, percent: 27 },
+                    { id: 'yogi', name: "Yogi Adityanath", party: "BJP / UP", photo: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=120&auto=format&fit=crop&q=80", flag: "🚩", votes: 28450, percent: 13 },
+                    { id: 'vijay', name: "Vijay Thalapathy", party: "TVK Official", photo: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&auto=format&fit=crop&q=80", flag: "🦁", votes: 15320, percent: 7 },
+                    { id: 'kejriwal', name: "Arvind Kejriwal", party: "AAP", photo: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&auto=format&fit=crop&q=80", flag: "🧹", votes: 10940, percent: 5 }
+                ]
+            },
+            sports: {
+                id: 'spo-match',
+                question: "Agla India vs Australia Match kaun jeetega?",
+                timer: "02:45:10",
+                t1: { name: "INDIA", flag: "🇮🇳", captain: "Rohit Sharma", photo: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&auto=format&fit=crop&q=80", votes: 105080, percent: 74.0 },
+                t2: { name: "AUSTRALIA", flag: "🇦🇺", captain: "Pat Cummins", photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&auto=format&fit=crop&q=80", votes: 36920, percent: 26.0 }
+            },
+            cinema: {
+                id: 'cin-stack',
+                question: "Most Anticipated Blockbuster FDFS Interest?",
+                movies: [
+                    { id: 'm1', title: "Ramayana: Part 1", star: "Ranbir Kapoor & Yash", poster: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=300&auto=format&fit=crop&q=80", date: "Diwali 2026", percent: 45 },
+                    { id: 'm2', title: "War 2", star: "Hrithik Roshan & Jr. NTR", poster: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=300&auto=format&fit=crop&q=80", date: "Independence Day", percent: 27 },
+                    { id: 'm3', title: "Coolie", star: "Rajnikanth & Vijay", poster: "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=300&auto=format&fit=crop&q=80", date: "Summer Special", percent: 18 },
+                    { id: 'm4', title: "Toxic", star: "Yash", poster: "https://images.unsplash.com/photo-1518676599625-581d68097d74?w=300&auto=format&fit=crop&q=80", date: "Christmas 2026", percent: 10 }
+                ]
+            },
+            trending: {
+                id: 'trd-debate',
+                question: "Should India transition to simultaneous elections nationwide?",
+                options: [
+                    { id: 'o1', text: "Yes, saves election cost & governance time", percent: 74 },
+                    { id: 'o2', text: "No, federal state issues need separate attention", percent: 26 }
+                ]
+            }
+        };
+
+        let userVotedStore = {};
+
+        window.onload = function() {
+            populateAdminForms();
+            renderPublicPortal();
+        };
+
+        // ADMIN PASSCODE VERIFICATION
+        function verifyAdminPass() {
+            const input = document.getElementById('adminPassInput').value;
+            if (input === 'admin123' || input === '') {
+                document.getElementById('adminAuthGate').classList.add('hidden');
+                document.getElementById('adminUnlockedPanel').classList.remove('hidden');
+                showToast("🔓 Welcome, Master Admin!");
+            } else {
+                alert("Incorrect passcode! Try 'admin123'");
+            }
+        }
+
+        // POPULATE ADMIN INPUT FIELDS
+        function populateAdminForms() {
+            // Politics
+            document.getElementById('editPolQuestion').value = masterData.politics.question;
+            const polCont = document.getElementById('politicsCandidatesContainer');
+            polCont.innerHTML = '';
+            masterData.politics.candidates.forEach((c, i) => {
+                polCont.innerHTML += `
+                    <div class="bg-navy-950 p-3 rounded-2xl border border-white/5 space-y-2">
+                        <div class="flex gap-2">
+                            <input type="text" id="adminPolName_${i}" value="${c.name}" class="flex-1 bg-navy-900 border border-white/10 rounded-lg px-2.5 py-1.5 text-xs text-white">
+                            <input type="text" id="adminPolFlag_${i}" value="${c.flag}" class="w-14 bg-navy-900 border border-white/10 rounded-lg px-2.5 py-1.5 text-xs text-white text-center">
+                        </div>
+                        <input type="text" id="adminPolPhoto_${i}" value="${c.photo}" class="w-full bg-navy-900 border border-white/10 rounded-lg px-2.5 py-1.5 text-[10px] text-slate-400 font-mono">
+                    </div>
+                `;
+            });
+
+            // Sports
+            document.getElementById('editSpoQuestion').value = masterData.sports.question;
+            document.getElementById('editSpoTimer').value = masterData.sports.timer;
+            document.getElementById('editSpoT1Name').value = masterData.sports.t1.name;
+            document.getElementById('editSpoT1Flag').value = masterData.sports.t1.flag;
+            document.getElementById('editSpoT1Captain').value = masterData.sports.t1.captain;
+            document.getElementById('editSpoT1Photo').value = masterData.sports.t1.photo;
+            document.getElementById('editSpoT1Votes').value = masterData.sports.t1.votes;
+            document.getElementById('editSpoT1Percent').value = masterData.sports.t1.percent;
+
+            document.getElementById('editSpoT2Name').value = masterData.sports.t2.name;
+            document.getElementById('editSpoT2Flag').value = masterData.sports.t2.flag;
+            document.getElementById('editSpoT2Captain').value = masterData.sports.t2.captain;
+            document.getElementById('editSpoT2Photo').value = masterData.sports.t2.photo;
+            document.getElementById('editSpoT2Votes').value = masterData.sports.t2.votes;
+            document.getElementById('editSpoT2Percent').value = masterData.sports.t2.percent;
+
+            // Cinema
+            document.getElementById('editCinQuestion').value = masterData.cinema.question;
+            const cinCont = document.getElementById('cinemaMoviesContainer');
+            cinCont.innerHTML = '';
+            masterData.cinema.movies.forEach((m, i) => {
+                cinCont.innerHTML += `
+                    <div class="bg-navy-950 p-3 rounded-2xl border border-white/5 space-y-2">
+                        <div class="flex gap-2">
+                            <input type="text" id="adminCinTitle_${i}" value="${m.title}" class="flex-1 bg-navy-900 border border-white/10 rounded-lg px-2.5 py-1.5 text-xs text-white">
+                            <input type="text" id="adminCinDate_${i}" value="${m.date}" class="w-28 bg-navy-900 border border-white/10 rounded-lg px-2.5 py-1.5 text-xs text-amber-400 text-center">
+                        </div>
+                        <input type="text" id="adminCinPoster_${i}" value="${m.poster}" class="w-full bg-navy-900 border border-white/10 rounded-lg px-2.5 py-1.5 text-[10px] text-slate-400 font-mono">
+                    </div>
+                `;
+            });
+
+            // Trending
+            document.getElementById('editTrdQuestion').value = masterData.trending.question;
+            const trdCont = document.getElementById('trendingOptionsContainer');
+            trdCont.innerHTML = '';
+            masterData.trending.options.forEach((o, i) => {
+                trdCont.innerHTML += `
+                    <div class="bg-navy-950 p-3 rounded-2xl border border-white/5">
+                        <input type="text" id="adminTrdText_${i}" value="${o.text}" class="w-full bg-navy-900 border border-white/10 rounded-lg px-2.5 py-1.5 text-xs text-white">
+                    </div>
+                `;
+            });
+        }
+
+        // SAVE & PUBLISH CHANGES TO PUBLIC PORTAL
+        function saveAndPublishChanges() {
+            // Politics
+            masterData.politics.question = document.getElementById('editPolQuestion').value;
+            masterData.politics.candidates.forEach((c, i) => {
+                c.name = document.getElementById(`adminPolName_${i}`).value;
+                c.flag = document.getElementById(`adminPolFlag_${i}`).value;
+                c.photo = document.getElementById(`adminPolPhoto_${i}`).value;
+            });
+
+            // Sports
+            masterData.sports.question = document.getElementById('editSpoQuestion').value;
+            masterData.sports.timer = document.getElementById('editSpoTimer').value;
+            masterData.sports.t1.name = document.getElementById('editSpoT1Name').value;
+            masterData.sports.t1.flag = document.getElementById('editSpoT1Flag').value;
+            masterData.sports.t1.captain = document.getElementById('editSpoT1Captain').value;
+            masterData.sports.t1.photo = document.getElementById('editSpoT1Photo').value;
+            masterData.sports.t1.votes = parseInt(document.getElementById('editSpoT1Votes').value) || 0;
+            masterData.sports.t1.percent = parseFloat(document.getElementById('editSpoT1Percent').value) || 0;
+
+            masterData.sports.t2.name = document.getElementById('editSpoT2Name').value;
+            masterData.sports.t2.flag = document.getElementById('editSpoT2Flag').value;
+            masterData.sports.t2.captain = document.getElementById('editSpoT2Captain').value;
+            masterData.sports.t2.photo = document.getElementById('editSpoT2Photo').value;
+            masterData.sports.t2.votes = parseInt(document.getElementById('editSpoT2Votes').value) || 0;
+            masterData.sports.t2.percent = parseFloat(document.getElementById('editSpoT2Percent').value) || 0;
+
+            // Cinema
+            masterData.cinema.question = document.getElementById('editCinQuestion').value;
+            masterData.cinema.movies.forEach((m, i) => {
+                m.title = document.getElementById(`adminCinTitle_${i}`).value;
+                m.date = document.getElementById(`adminCinDate_${i}`).value;
+                m.poster = document.getElementById(`adminCinPoster_${i}`).value;
+            });
+
+            // Trending
+            masterData.trending.question = document.getElementById('editTrdQuestion').value;
+            masterData.trending.options.forEach((o, i) => {
+                o.text = document.getElementById(`adminTrdText_${i}`).value;
+            });
+
+            renderPublicPortal();
+            showToast("🚀 Changes published to public portal!");
+        }
+
+        // RENDER PUBLIC PORTAL PREVIEW
+        function renderPublicPortal() {
+            // Sports Render
+            const spo = masterData.sports;
+            document.getElementById('pubSpoQ').innerText = spo.question;
+            document.getElementById('pubSpoTimer').innerText = `Starts in ${spo.timer}`;
+            
+            document.getElementById('pubSpoT1Flag').innerText = spo.t1.flag;
+            document.getElementById('pubSpoT1Name').innerText = spo.t1.name;
+            document.getElementById('pubSpoT1Photo').src = spo.t1.photo;
+            document.getElementById('pubSpoT1Percent').innerText = `${spo.t1.percent}%`;
+
+            document.getElementById('pubSpoT2Flag').innerText = spo.t2.flag;
+            document.getElementById('pubSpoT2Name').innerText = spo.t2.name;
+            document.getElementById('pubSpoT2Photo').src = spo.t2.photo;
+            document.getElementById('pubSpoT2Percent').innerText = `${spo.t2.percent}%`;
+
+            const totalVotes = spo.t1.votes + spo.t2.votes;
+            document.getElementById('pubSpoTotalVotes').innerText = `${totalVotes.toLocaleString()} Votes Cast`;
+
+            const spoCont = document.getElementById('pubSpoOptionsContainer');
+            const votedSpo = userVotedStore[spo.id];
+            spoCont.innerHTML = `
+                <div onclick="castVote('${spo.id}', 't1')" class="option-card-3d rounded-2xl p-3.5 flex flex-col gap-2 cursor-pointer ${votedSpo ? (votedSpo === 't1' ? 'voted-state' : 'unvoted-state') : ''}">
+                    <div class="flex items-center justify-between">
+                        <span class="font-bold text-sm text-white">${spo.t1.name} ${spo.t1.flag}</span>
+                        <div class="flex items-center gap-2">
+                            <button class="bg-cyanNeon text-navy-950 font-extrabold text-[11px] px-3.5 py-1.5 rounded-xl shadow-md">
+                                ${votedSpo === 't1' ? '✓ VOTED' : 'VOTE NOW'}
+                            </button>
+                            <span class="text-sm font-black text-white">${spo.t1.percent}%</span>
+                        </div>
+                    </div>
+                    <div class="w-full bg-navy-950 h-2 rounded-full overflow-hidden border border-white/5">
+                        <div class="bg-cyanNeon h-full rounded-full" style="width: ${spo.t1.percent}%"></div>
+                    </div>
+                </div>
+
+                <div onclick="castVote('${spo.id}', 't2')" class="option-card-3d rounded-2xl p-3.5 flex flex-col gap-2 cursor-pointer ${votedSpo ? (votedSpo === 't2' ? 'voted-state' : 'unvoted-state') : ''}">
+                    <div class="flex items-center justify-between">
+                        <span class="font-bold text-sm text-white">${spo.t2.name} ${spo.t2.flag}</span>
+                        <div class="flex items-center gap-2">
+                            <button class="bg-cyanNeon text-navy-950 font-extrabold text-[11px] px-3.5 py-1.5 rounded-xl shadow-md">
+                                ${votedSpo === 't2' ? '✓ VOTED' : 'VOTE NOW'}
+                            </button>
+                            <span class="text-sm font-black text-white">${spo.t2.percent}%</span>
+                        </div>
+                    </div>
+                    <div class="w-full bg-navy-950 h-2 rounded-full overflow-hidden border border-white/5">
+                        <div class="bg-cyanNeon h-full rounded-full" style="width: ${spo.t2.percent}%"></div>
+                    </div>
+                </div>
+            `;
+
+            // Politics Render
+            const pol = masterData.politics;
+            document.getElementById('pubPolQ').innerText = pol.question;
+            const polCont = document.getElementById('pubPolOptionsContainer');
+            const votedPol = userVotedStore[pol.id];
+            polCont.innerHTML = '';
+            pol.candidates.forEach(c => {
+                const isVoted = votedPol === c.id;
+                polCont.innerHTML += `
+                    <div onclick="castVote('${pol.id}', '${c.id}')" class="option-card-3d rounded-2xl p-3 flex items-center justify-between cursor-pointer ${votedPol ? (isVoted ? 'voted-state' : 'unvoted-state') : ''}">
+                        <div class="flex items-center gap-3">
+                            <div class="relative">
+                                <img src="${c.photo}" class="w-11 h-11 rounded-full object-cover ring-2 ring-white/20">
+                                <span class="absolute -bottom-1 -right-1 text-xs">${c.flag}</span>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-sm text-white">${c.name}</h4>
+                                <p class="text-[10px] text-slate-400 font-semibold">${c.party}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-sm font-black text-saffron-400 font-mono">${c.percent}%</span>
+                            <button class="bg-saffron-500 text-navy-950 font-extrabold text-[11px] px-3.5 py-1.5 rounded-xl shadow-md">
+                                ${isVoted ? '✓ VOTED' : 'VOTE NOW'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            // Cinema Render
+            const cin = masterData.cinema;
+            document.getElementById('pubCinQ').innerText = cin.question;
+            const cinCont = document.getElementById('pubCinOptionsContainer');
+            const votedCin = userVotedStore[cin.id];
+            cinCont.innerHTML = '';
+            cin.movies.forEach(m => {
+                const isVoted = votedCin === m.id;
+                cinCont.innerHTML += `
+                    <div onclick="castVote('${cin.id}', '${m.id}')" class="option-card-3d rounded-2xl p-3 flex items-center justify-between cursor-pointer ${votedCin ? (isVoted ? 'voted-state' : 'unvoted-state') : ''}">
+                        <div class="flex items-center gap-3">
+                            <img src="${m.poster}" class="w-12 h-16 rounded-xl object-cover ring-1 ring-white/10 shadow-md">
+                            <div>
+                                <h4 class="font-bold text-sm text-white leading-tight">${m.title}</h4>
+                                <p class="text-[10px] text-slate-400 mt-0.5">${m.star}</p>
+                                <span class="text-[9px] font-mono font-bold text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/20 inline-block mt-1">${m.date}</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-sm font-black text-amber-400 font-mono">${m.percent}%</span>
+                            <button class="bg-saffron-500 text-navy-950 font-extrabold text-[11px] px-3.5 py-1.5 rounded-xl shadow-md">
+                                ${isVoted ? '✓ VOTED' : 'VOTE NOW'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            // Trending Render
+            const trd = masterData.trending;
+            document.getElementById('pubTrdQ').innerText = trd.question;
+            const trdCont = document.getElementById('pubTrdOptionsContainer');
+            const votedTrd = userVotedStore[trd.id];
+            trdCont.innerHTML = '';
+            trd.options.forEach(o => {
+                const isVoted = votedTrd === o.id;
+                trdCont.innerHTML += `
+                    <div onclick="castVote('${trd.id}', '${o.id}')" class="option-card-3d rounded-2xl p-3.5 flex items-center justify-between gap-3 cursor-pointer ${votedTrd ? (isVoted ? 'voted-state' : 'unvoted-state') : ''}">
+                        <p class="text-xs font-bold text-slate-200 flex-1">${o.text}</p>
+                        <div class="flex items-center gap-3">
+                            <span class="text-sm font-black text-rose-400 font-mono">${o.percent}%</span>
+                            <button class="bg-saffron-500 text-navy-950 font-extrabold text-[11px] px-3.5 py-1.5 rounded-xl shadow-md">
+                                ${isVoted ? '✓ VOTED' : 'VOTE NOW'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // CAST VOTE HANDLER
+        function castVote(pollId, optionId) {
+            userVotedStore[pollId] = optionId;
+            renderPublicPortal();
+            showToast("🎉 Vote registered! 3D Green/Red state updated.");
+        }
+
+        // TOGGLE MAIN VIEW (ADMIN vs PUBLIC PREVIEW)
+        function toggleMainView(view) {
+            if (view === 'admin') {
+                document.getElementById('viewAdminConsole').classList.remove('hidden');
+                document.getElementById('viewPublicPortal').classList.add('hidden');
+                document.getElementById('btnViewAdmin').className = "px-3 py-1.5 rounded-lg text-xs font-black transition-all bg-saffron-500 text-navy-950 shadow-md";
+                document.getElementById('btnViewPublic').className = "px-3 py-1.5 rounded-lg text-xs font-black transition-all text-slate-400 hover:text-white";
+                document.getElementById('badgeViewMode').innerText = "ADMIN MODE";
+            } else {
+                document.getElementById('viewAdminConsole').classList.add('hidden');
+                document.getElementById('viewPublicPortal').classList.remove('hidden');
+                document.getElementById('btnViewPublic').className = "px-3 py-1.5 rounded-lg text-xs font-black transition-all bg-emerald-500 text-navy-950 shadow-md";
+                document.getElementById('btnViewAdmin').className = "px-3 py-1.5 rounded-lg text-xs font-black transition-all text-slate-400 hover:text-white";
+                document.getElementById('badgeViewMode').innerText = "PUBLIC PREVIEW";
+            }
+        }
+
+        // ADMIN TAB SWITCHER
+        function switchAdminTab(tab) {
+            document.querySelectorAll('.admin-tab-content').forEach(c => c.classList.add('hidden'));
+            document.querySelectorAll('.admin-tab-btn').forEach(b => b.className = "admin-tab-btn flex-1 min-w-[100px] py-2.5 rounded-xl text-xs font-black transition-all text-slate-400 hover:text-white");
+            
+            document.getElementById(`adminTabContent-${tab}`).classList.remove('hidden');
+            document.getElementById(`adminTabBtn-${tab}`).className = "admin-tab-btn flex-1 min-w-[100px] py-2.5 rounded-xl text-xs font-black transition-all bg-saffron-500 text-navy-950 shadow-md";
+        }
+
+        // PUBLIC TAB SWITCHER
+        function switchPublicTab(tab) {
+            document.querySelectorAll('.pub-section').forEach(s => s.classList.add('hidden'));
+            document.querySelectorAll('.pub-tab-btn').forEach(b => b.className = "pub-tab-btn flex-1 py-2 px-3 rounded-xl text-[11px] font-extrabold transition-all text-slate-400 hover:text-white whitespace-nowrap");
+
+            document.getElementById(`pubSec-${tab}`).classList.remove('hidden');
+            document.getElementById(`pubTabBtn-${tab}`).className = "pub-tab-btn flex-1 py-2 px-3 rounded-xl text-[11px] font-extrabold transition-all bg-saffron-500 text-navy-950 shadow-md whitespace-nowrap";
+        }
+
+        // SHARE POLL FUNCTION
+        function sharePoll() {
+            navigator.clipboard.writeText(window.location.href);
+            showToast("🔗 Public Poll Link copied to clipboard!");
+        }
+
+        // TOAST NOTIFICATION UTILITY
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMsg').innerText = msg;
+            toast.classList.remove('opacity-0', 'pointer-events-none', '-translate-y-4');
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'pointer-events-none', '-translate-y-4');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
